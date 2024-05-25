@@ -1,1 +1,45 @@
-<p>landing works!</p>
+<mat-toolbar class="mat-primary">
+  <span>Pregunta-Tech</span>
+  <span class="spacer"></span>
+  <mat-icon aria-hidden="false" aria-label="Example user verified icon"
+    >account_circle</mat-icon
+  >
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="navigateLogin()">Login</button>
+    <button mat-menu-item (click)="navigateRegister()">Register</button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <div class="category-container">
+    @for (category of categories; track categories) {
+    <mat-card>
+      <button mat-raised-button color="accent">
+        {{ category.name }} ({{ category.count_questions }})
+      </button>
+    </mat-card>
+    }
+  </div>
+
+  <div class="selector-container">
+    <mat-select placeholder="Dificultad">
+      @for (difficulty of difficulties; track difficulties) {
+      <mat-option>
+        {{ difficulty }}
+      </mat-option>
+      }
+    </mat-select>
+    <mat-select placeholder="Nº Tests">
+      <mat-option *ngFor="let count of testCounts" [value]="count">
+        {{ count }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <div class="button-container">
+    <button mat-raised-button color="primary">Action Button</button>
+  </div>
+</div>
