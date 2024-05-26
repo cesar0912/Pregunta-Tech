@@ -10,6 +10,7 @@ Para instalar y usar Photomaton, sigue estos pasos:
 
 1. Instala las dependencias globales:
    - Node v18.19.1 [link](https://nodejs.org/download/release/v18.19.1/)
+     (Recomendado hacer uninstall a la versión que tengas y descargar el msi del link).
    - Angular CLI (npm install -g @angular/cli)
 3. Una vez instaladas las dependencias globales, ejecuta `npm i` en la raíz del proyecto para instalar las dependencias locales.
 
