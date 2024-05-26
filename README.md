@@ -9,8 +9,9 @@ Pregunta-Tech es una web que permite realizar tests, juntarte en grupos y desarr
 Para instalar y usar Photomaton, sigue estos pasos:
 
 1. Instala las dependencias globales:
+   - Node v18.19.1 [link](https://nodejs.org/download/release/v18.19.1/)
    - Angular CLI (npm install -g @angular/cli)
-2. Una vez instaladas las dependencias globales, ejecuta `npm i` en la raíz del proyecto para instalar las dependencias locales.
+3. Una vez instaladas las dependencias globales, ejecuta `npm i` en la raíz del proyecto para instalar las dependencias locales.
 
 ## Uso
 
