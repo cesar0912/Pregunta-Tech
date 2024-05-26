@@ -107,4 +107,8 @@ export class LandingComponent implements OnInit {
   public navigateRegister(): void {
     this.router.navigate(['register']);
   }
+
+  public navigateTest(): void {
+    this.router.navigate(['test']);
+  }
 }

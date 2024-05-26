@@ -33,13 +33,17 @@
       }
     </mat-select>
     <mat-select placeholder="Nº Tests">
-      <mat-option *ngFor="let count of testCounts" [value]="count">
+      @for (count of testCounts; track count) {
+      <mat-option>
         {{ count }}
       </mat-option>
+      }
     </mat-select>
   </div>
 
   <div class="button-container">
-    <button mat-raised-button color="primary">Action Button</button>
+    <button mat-raised-button color="primary" (click)="navigateTest()">
+      !INICIAR TEST¡
+    </button>
   </div>
 </div>
