@@ -1,0 +1,79 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.test-container {
+  width: 90%;
+  max-width: 1000px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.test-container h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  color: #333;
+}
+
+.test-container p {
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  color: #666;
+}
+
+.answer-button {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  margin: 10px 0;
+  text-align: left;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.answer-button.selected {
+  background-color: #d0e8ff;
+}
+
+.answer-button.correct {
+  background-color: #60eb95;
+  color: white;
+}
+
+.answer-button.incorrect {
+  background-color: #f03242;
+  color: white;
+}
+
+.next-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 50px;
+  padding: 20px 40px;
+}
+.next-button-container button {
+  font-size: 30px;
+  padding: 20px 40px;
+}
+
+.feedback {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  border-radius: 4px;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  color: #721c24;
+}
