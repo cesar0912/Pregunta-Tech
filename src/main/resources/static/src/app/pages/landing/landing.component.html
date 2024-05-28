@@ -1,16 +1,9 @@
 <mat-toolbar class="mat-primary">
   <span>Pregunta-Tech</span>
   <span class="spacer"></span>
-  <mat-icon aria-hidden="false" aria-label="Example user verified icon"
+  <mat-icon (click)="navigateLogin()" aria-hidden="false" aria-label="Example user verified icon"
     >account_circle</mat-icon
   >
-  <mat-menu #appMenu="matMenu">
-    <button mat-menu-item (click)="navigateLogin()">Login</button>
-    <button mat-menu-item (click)="navigateRegister()">Register</button>
-  </mat-menu>
-  <button mat-icon-button [matMenuTriggerFor]="appMenu">
-    <mat-icon>menu</mat-icon>
-  </button>
 </mat-toolbar>
 
 <div class="container">
