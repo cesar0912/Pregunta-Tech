@@ -1,5 +1,7 @@
 package es.metrica.Pregunta_Tech.model;
 
+import java.util.Objects;
+
 import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
@@ -11,6 +13,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class Users {
+	
+
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -41,6 +47,19 @@ public class Users {
 	}
 	
 	public Users() {}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Users other = (Users) obj;
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(surname, other.surname);
+	}
 	
 	@Override
 	public String toString() {
