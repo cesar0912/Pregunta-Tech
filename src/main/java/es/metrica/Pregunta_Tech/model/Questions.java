@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name="coach")
+@Table(name="questions")
 public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
