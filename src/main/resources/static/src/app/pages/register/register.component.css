@@ -20,9 +20,10 @@
   }
   
   .mat-error-password {
-    text-align: right;
-    margin-top: -25%;
-    margin-left:40%;
+    position: fixed;
+    margin-top:-32%;
+    left:110%;
+    width: 120%;
   }
   
   .additional-links {

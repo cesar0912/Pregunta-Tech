@@ -25,11 +25,11 @@
       />
       @if (registerForm.get('password')?.hasError('required')) {
       <mat-error>La contraseña es obligatoria</mat-error>
-      }@if (registerForm.get('password')?.hasError('invalidPassword')) {
-        <mat-error class="mat-error-password">Mínimo 8 caracteres.
-          Al menos una letra mayúscula.
-          Al menos una letra minúscula.
-          Al menos un número.
+      }@else if (registerForm.get('password')?.hasError('invalidPassword')) {
+        <mat-error class="mat-error-password">Mínimo 8 caracteres.<br>
+          Al menos una letra mayúscula.<br>
+          Al menos una letra minúscula.<br>
+          Al menos un número.<br>
           Al menos un carácter especial</mat-error>
         }
     </mat-form-field>
