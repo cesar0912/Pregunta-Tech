@@ -8,13 +8,14 @@ import org.springframework.context.annotation.Profile;
 
 import es.metrica.Pregunta_Tech.repository.User.UserRepository;
 import es.metrica.Pregunta_Tech.repository.User.UserRepositoryImpl;
+import es.metrica.Pregunta_Tech.services.UserServices;
 import mocks.GetUserMock;
 @Profile("test")
 @Configuration
 public class UserRepositoryTestConfiguration {
 		@Bean
 	   @Primary
-	    public UserRepositoryImpl nameService() {
-	        return Mockito.mock(UserRepositoryImpl.class);
+	    public UserServices nameService() {
+	        return Mockito.mock(UserServices.class);
 	    }
 }

@@ -17,5 +17,5 @@ import es.metrica.Pregunta_Tech.model.Users;
 @Repository
 public interface UserRepository extends JpaRepository<Users,Long> {
 
-	
+	 
 }

@@ -22,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import es.metrica.Pregunta_Tech.model.Users;
 import es.metrica.Pregunta_Tech.repository.User.UserRepository;
 import es.metrica.Pregunta_Tech.repository.User.UserRepositoryImpl;
+import es.metrica.Pregunta_Tech.services.UserServices;
 import mocks.GetUserMock;
 
 @ActiveProfiles("test")
@@ -29,7 +30,7 @@ import mocks.GetUserMock;
 class PreguntaTechApplicationTests {
 
 	@MockBean
-	private UserRepositoryImpl userRepositoryImpl;
+	private UserServices userServices;
 	
 
  
@@ -39,17 +40,13 @@ class PreguntaTechApplicationTests {
 	void contextLoads() {
 		
 	}
+	
 	@Test
-	void userRepositoryImpl() {
+	void basiTestLogin() {
 		
-        
-	}
-	@Test
-	void checkgetById() {
-		
-		when(userRepositoryImpl.getById(1L)).thenReturn(new Users());
-		Users testName = userRepositoryImpl.getById( 1L);
-		Assertions.assertEquals(new Users(), testName);
+		when(userServices.login("admin", "admin")).thenReturn("un token");
+		String testLogin = userServices.login("admin", "admin");
+		Assertions.assertEquals("un token", testLogin);
 	}
 
 }
