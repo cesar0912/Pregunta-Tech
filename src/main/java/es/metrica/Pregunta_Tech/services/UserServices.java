@@ -25,7 +25,7 @@ public class UserServices {
 		return "Token";
 		
 	}
-	public Boolean register(String username,String email,String password) {
+	public Boolean register(String email,String password,String name,String surname) {
 		
 		
 		return true;

@@ -12,10 +12,14 @@ import es.metrica.Pregunta_Tech.services.UserServices;
 import mocks.GetUserMock;
 @Profile("test")
 @Configuration
-public class UserRepositoryTestConfiguration {
-		@Bean
-	   @Primary
-	    public UserServices nameService() {
-	        return Mockito.mock(UserServices.class);
-	    }
+public class MocksTestConfiguration {
+	
+//En esta clase se crean las instancias mockeadas de las clases que sean necesarias
+//En principio seria para los repositorios porque son interfaces aunque tengo que investigar mas para entenderlo mejor
+//los servicios no necesitan ser mockeados solamente injectados
+//	@Bean
+//    @Primary
+//    public NameService nameService() {
+//        return Mockito.mock(NameService.class);
+//    }
 }

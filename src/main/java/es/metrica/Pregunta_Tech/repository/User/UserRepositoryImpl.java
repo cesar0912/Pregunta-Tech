@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.stereotype.Repository;
 
-import es.metrica.Pregunta_Tech.model.Users;
+import es.metrica.Pregunta_Tech.model.User;
 public class UserRepositoryImpl  {
 
 	
