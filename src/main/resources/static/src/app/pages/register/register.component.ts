@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
 
 interface User {
   email: string;
@@ -44,13 +45,14 @@ interface User {
     MatCardModule,
     MatSelectModule,
     ReactiveFormsModule,
+    HeaderComponent,
   ],
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  
+
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar,
     private cdRef: ChangeDetectorRef
@@ -67,11 +69,13 @@ export class RegisterComponent implements OnInit {
 
   private passwordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      return passwordRegex.test(control.value) ? null : { invalidPassword: true };
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return passwordRegex.test(control.value)
+        ? null
+        : { invalidPassword: true };
     };
   }
-
 
   private nameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

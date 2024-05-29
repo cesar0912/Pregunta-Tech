@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../header/header.component'; // Importa el HeaderComponent
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatSelectModule,
     ReactiveFormsModule,
+    HeaderComponent,
   ],
 })
 export class LoginComponent implements OnInit {

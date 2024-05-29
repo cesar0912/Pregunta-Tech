@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
 
 interface Category {
   name: string;
@@ -27,6 +28,7 @@ interface Category {
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
+    HeaderComponent,
   ],
 })
 export class LandingComponent implements OnInit {
