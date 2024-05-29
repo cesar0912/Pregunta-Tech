@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+interface ApiResponse {
+  categories: Category[];
+  totalCategories: number;
+  totalQuestions: number;
+}
+
+export interface Category {
+  name: string;
+  count_questions: number;
+  link: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PreguntaApiCategoriesService {
+  private apiUrl = 'https://www.preguntapi.dev/api/categories';
+
+  constructor(private http: HttpClient) {}
+
+  getCategories(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(this.apiUrl);
+  }
+}
