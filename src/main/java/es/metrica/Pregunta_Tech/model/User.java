@@ -2,21 +2,23 @@ package es.metrica.Pregunta_Tech.model;
 
 import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
+
+
 @Entity
-@Table(name = "users")
-public class Users {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     Long id;
 
     @Column
@@ -78,7 +80,7 @@ public class Users {
 	@ManyToOne
 	Long idGrupo
 	*/
-	public Users(Long id, String email, String password, String surname, String name) {
+	public User(Long id, String email, String password, String surname, String name) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -87,7 +89,16 @@ public class Users {
 		this.name = name;
 	}
 	
-	public Users() {}
+	
+	public User(String email, String password, String surname, String name) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.surname = surname;
+		this.name = name;
+	}
+
+	public User() {}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -97,7 +108,7 @@ public class Users {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Users other = (Users) obj;
+		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(password, other.password) && Objects.equals(surname, other.surname);
 	}

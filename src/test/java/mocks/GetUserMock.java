@@ -2,10 +2,10 @@ package mocks;
 
 import org.springframework.stereotype.Repository;
 
-import es.metrica.Pregunta_Tech.model.Users;
+import es.metrica.Pregunta_Tech.model.User;
 @Repository
 public class GetUserMock {
-	public Users getById(Long id) {
-		return new Users();
+	public User getById(Long id) {
+		return new User();
 	}
 } 

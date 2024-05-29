@@ -1,6 +1,7 @@
 package es.metrica.Pregunta_Tech.model;
 
 import java.util.List;
+//TODO refactor
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,24 +10,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name="questions")
+@Table(name="coach")
 public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
 	Long id;
 
 	@Column
 	String category;
 	@Column
-	String Level;
+	String level;
 	@Column
-	String Question;
+	String question;
 	@Column
 	List<String> answers;
-	@Column
-	String Correct_Answer;
+	@Column(name="correct_answer")
+	String correctAnswer;
 	@Column
 	String FeedBack;
 	public Questions(Long id, String category, String level, String question, List<String> answers,
@@ -34,10 +36,10 @@ public class Questions {
 		super();
 		this.id = id;
 		this.category = category;
-		Level = level;
-		Question = question;
+		level = level;
+		question = question;
 		this.answers = answers;
-		Correct_Answer = correct_Answer;
+		correctAnswer = correct_Answer;
 		FeedBack = feedBack;
 	}
 	public Long getId() {
@@ -53,16 +55,16 @@ public class Questions {
 		this.category = category;
 	}
 	public String getLevel() {
-		return Level;
+		return level;
 	}
 	public void setLevel(String level) {
-		Level = level;
+		level = level;
 	}
 	public String getQuestion() {
-		return Question;
+		return question;
 	}
 	public void setQuestion(String question) {
-		Question = question;
+		question = question;
 	}
 	public List<String> getAnswers() {
 		return answers;
@@ -71,10 +73,10 @@ public class Questions {
 		this.answers = answers;
 	}
 	public String getCorrect_Answer() {
-		return Correct_Answer;
+		return correctAnswer;
 	}
 	public void setCorrect_Answer(String correct_Answer) {
-		Correct_Answer = correct_Answer;
+		correctAnswer = correct_Answer;
 	}
 	public String getFeedBack() {
 		return FeedBack;
