@@ -2,8 +2,14 @@ package es.metrica.Pregunta_Tech.model;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import jakarta.persistence.*;
+
 
 
 @Entity
@@ -83,6 +89,15 @@ public class User {
 		this.name = name;
 	}
 	
+	
+	public User(String email, String password, String surname, String name) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.surname = surname;
+		this.name = name;
+	}
+
 	public User() {}
 	
 	@Override

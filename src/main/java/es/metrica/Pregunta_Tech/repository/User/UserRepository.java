@@ -17,5 +17,9 @@ import es.metrica.Pregunta_Tech.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
+	Optional<User> getByEmail(String email);
+	
+	
+	
 	 
 }
