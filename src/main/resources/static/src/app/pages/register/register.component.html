@@ -1,3 +1,79 @@
-<p>
-  register works!
-</p>
+<app-header></app-header>
+<div class="form-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="Ingrese su email"
+      />
+      @if (registerForm.get('email')?.hasError('required')) {
+      <mat-error>El email es obligatorio</mat-error>
+      } @if (registerForm.get('email')?.hasError('email')) {
+      <mat-error>Email inválido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Ingrese su contraseña"
+      />
+      @if (registerForm.get('password')?.hasError('required')) {
+      <mat-error>La contraseña es obligatoria</mat-error>
+      }@else if (registerForm.get('password')?.hasError('invalidPassword')) {
+        <mat-error class="mat-error-password">Mínimo 8 caracteres.<br>
+          Al menos una letra mayúscula.<br>
+          Al menos una letra minúscula.<br>
+          Al menos un número.<br>
+          Al menos un carácter especial</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        type="text"
+        placeholder="Ingrese su nombre"
+      />
+      @if (registerForm.get('name')?.hasError('required')) {
+      <mat-error>El nombre es obligatorio</mat-error>
+      } @if (registerForm.get('name')?.hasError('invalidName')) {
+      <mat-error>Nombre inválido</mat-error>
+      }
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill">
+      <mat-label>SurName</mat-label>
+      <input
+        matInput
+        formControlName="surname"
+        type="text"
+        placeholder="Ingrese su apellido"
+      />
+      @if (registerForm.get('surname')?.hasError('required')) {
+      <mat-error>El apellido es obligatorio</mat-error>
+      } @if (registerForm.get('surname')?.hasError('invalidName')) {
+      <mat-error>Apellido inválido</mat-error>
+      }
+    </mat-form-field>
+    <br />
+    <button mat-raised-button color="primary" type="submit">
+      Registrarse
+    </button>
+
+    <div class="additional-links">
+
+      <p>
+        ¿Ya tienes cuenta?
+        <a (click)="navigateLogin()">Inicia sesion</a>
+      </p>
+    </div>
+  </form>
+</div>

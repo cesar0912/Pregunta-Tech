@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,12 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-
-interface Category {
-  name: string;
-  count_questions: number;
-  link: string;
-}
+import { HeaderComponent } from '../header/header.component';
+import {
+  PreguntaApiCategoriesService,
+  Category,
+} from '../../services/pregunta-api-categories.service';
+import { PreguntaApiQuestionsService } from '../../services/pregunta-api-questions.service';
+import { CategoryCacheService } from '../../services/category-cache.service';
 
 @Component({
   selector: 'app-landing',
@@ -21,84 +28,165 @@ interface Category {
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
     MatSelectModule,
+    HeaderComponent,
   ],
 })
 export class LandingComponent implements OnInit {
-  categories: Category[] = [
+  questionsMocked = [
     {
-      name: 'cpp',
-      count_questions: 29,
-      link: 'http://www.preguntapi.dev/api/categories/cpp',
+      id: '89',
+      category: 'javascript',
+      level: 'facil',
+      question:
+        'const person = {name:"John", age:31, city:"New York"};... ¿cuál es la forma correcta de acceder a los valores?',
+      answers: {
+        answer_a: 'person.name',
+        answer_b: 'person["name"]',
+        answer_c: 'Ambas son correctas',
+      },
+      correct_answer: 'answer_c',
     },
     {
-      name: 'csharp',
-      count_questions: 35,
-      link: 'http://www.preguntapi.dev/api/categories/csharp',
+      id: '325',
+      category: 'javascript',
+      level: 'facil',
+      question:
+        '¿Qué sentencia puede tomar una sola expresión como entrada y luego buscar a través de un número de opciones hasta que se encuentre una que coincida con ese valor?',
+      answers: {
+        answer_a: 'else',
+        answer_b: 'when',
+        answer_c: 'switch',
+        answer_d: 'if',
+      },
+      correct_answer: 'answer_c',
     },
     {
-      name: 'css',
-      count_questions: 38,
-      link: 'http://www.preguntapi.dev/api/categories/css',
+      id: '358',
+      category: 'javascript',
+      level: 'facil',
+      question:
+        '¿Qué método de la API del navegador se utiliza para hacer una petición HTTP de forma nativa?',
+      answers: {
+        answer_a: 'fetch("https://some-url-here.com")',
+        answer_b: 'axios.get("https://some-url-here.com")',
+        answer_c: 'makeRequest("https://some-url-here.com")',
+      },
+      correct_answer: 'answer_a',
     },
     {
-      name: 'html',
-      count_questions: 35,
-      link: 'http://www.preguntapi.dev/api/categories/html',
+      id: '66',
+      category: 'javascript',
+      level: 'facil',
+      question: 'Cómo insertar un comentario que tiene más de una línea?',
+      answers: {
+        answer_a: '/*Este comentario tiene más de una línea.*/',
+        answer_b: '<!--Este comentario tiene más de una línea.-->',
+        answer_c: '//Este comentario tiene más de una línea.//',
+      },
+      correct_answer: 'answer_a',
+      feedback:
+        ' Los comentarios comienzan con /* y terminan con */ . Cualquier texto entre /* y */ serán ignorados por JavaScript.',
     },
     {
-      name: 'java',
-      count_questions: 35,
-      link: 'http://www.preguntapi.dev/api/categories/java',
-    },
-    {
-      name: 'javascript',
-      count_questions: 40,
-      link: 'http://www.preguntapi.dev/api/categories/javascript',
-    },
-    {
-      name: 'kotlin',
-      count_questions: 25,
-      link: 'http://www.preguntapi.dev/api/categories/kotlin',
-    },
-    {
-      name: 'php',
-      count_questions: 24,
-      link: 'http://www.preguntapi.dev/api/categories/php',
-    },
-    {
-      name: 'python',
-      count_questions: 21,
-      link: 'http://www.preguntapi.dev/api/categories/python',
-    },
-    {
-      name: 'sql',
-      count_questions: 33,
-      link: 'http://www.preguntapi.dev/api/categories/sql',
-    },
-    {
-      name: 'swift',
-      count_questions: 20,
-      link: 'http://www.preguntapi.dev/api/categories/swift',
-    },
-    {
-      name: 'typescript',
-      count_questions: 20,
-      link: 'http://www.preguntapi.dev/api/categories/typescript',
+      id: '78',
+      category: 'javascript',
+      level: 'facil',
+      question:
+        '¿Cuál es la forma correcta de incluir un archivo JS externo en HTML?',
+      answers: {
+        answer_a: '<script src="main.js">',
+        answer_b: '<script href="main.js">',
+        answer_c: '<script name="main.js">',
+      },
+      correct_answer: 'answer_a',
+      feedback:
+        "La etiqueta HTML <script></script> solo puede utilizar el atributo 'src', 'href' es usado en enlaces con etiqueta <a></a>.",
     },
   ];
-
+  categories: Category[] = [];
+  selectedCategory: Category | null = null;
   difficulties: string[] = ['facil', 'normal', 'dificil'];
   testCounts: number[] = [5, 10, 15, 20];
 
-  constructor(private readonly router: Router) {}
+  testForm: FormGroup;
 
-  ngOnInit() {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly preguntaApiCategoriesService: PreguntaApiCategoriesService,
+    private readonly preguntaApiQuestionsService: PreguntaApiQuestionsService,
+    private readonly categoryCacheService: CategoryCacheService
+  ) {
+    this.testForm = this.fb.group({
+      category: [null, Validators.required],
+      difficulty: [null, Validators.required],
+      testCount: [null, Validators.required],
+    });
+  }
+
+  ngOnInit() {
+    const cachedCategories = this.categoryCacheService.getCategories();
+    if (cachedCategories.length > 0) {
+      this.categories = cachedCategories;
+    } else {
+      this.loadCategories();
+    }
+  }
+
+  private loadCategories(): void {
+    this.preguntaApiCategoriesService.getCategories().subscribe({
+      next: (response) => {
+        this.categories = response.categories;
+        this.categoryCacheService.setCategories(this.categories);
+      },
+      error: (error) => {
+        console.error('Error fetching categories', error);
+      },
+    });
+  }
+
+  public selectCategory(category: Category): void {
+    this.selectedCategory = category;
+    this.testForm.patchValue({ category: category.name });
+  }
+
+  private createTestRequest(): string {
+    let url = '';
+    if (this.testForm.valid) {
+      const { category, difficulty, testCount } = this.testForm.value;
+      url = `https://www.preguntapi.dev/api/categories/${category}?level=${difficulty}&limit=${testCount}`;
+    }
+    console.log('Url desde generar url: ' + url);
+    return url;
+  }
+
+  public onSubmit(): void {
+    console.log('entro en onSubmit()');
+    const apiUrl = this.createTestRequest();
+
+    this.router.navigate(['test'], {
+      state: { questions: this.questionsMocked },
+    });
+
+    /*    TODO Pendiente de implementar para conectar al Back por fallo en política CORS
+        this.preguntaApiQuestionsService.getQuestions(apiUrl).subscribe({
+        next: (response: { questions: any }) => {
+          this.router.navigate(['test'], {
+            state: { questions: response.questions },
+          });
+        },
+        error: (error: any) => {
+          console.error('Error fetching questions', error);
+        },
+      }); */
+  }
 
   public navigateLogin(): void {
     this.router.navigate(['login']);
@@ -106,9 +194,5 @@ export class LandingComponent implements OnInit {
 
   public navigateRegister(): void {
     this.router.navigate(['register']);
-  }
-
-  public navigateTest(): void {
-    this.router.navigate(['test']);
   }
 }

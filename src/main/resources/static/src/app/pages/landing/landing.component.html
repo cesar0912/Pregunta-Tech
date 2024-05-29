@@ -1,42 +1,43 @@
-<mat-toolbar class="mat-primary">
-  <span>Pregunta-Tech</span>
-  <span class="spacer"></span>
-  <mat-icon (click)="navigateLogin()" aria-hidden="false" aria-label="Example user verified icon"
-    >account_circle</mat-icon
-  >
-</mat-toolbar>
-
+<app-header></app-header>
 <div class="container">
-  <div class="category-container">
-    @for (category of categories; track categories) {
-    <mat-card>
-      <button mat-raised-button color="accent">
-        {{ category.name }} ({{ category.count_questions }})
+  <form [formGroup]="testForm" (ngSubmit)="onSubmit()">
+    <div class="category-container">
+      @for (category of categories; track categories) {
+      <mat-card
+        (click)="selectCategory(category)"
+        [class.selected]="selectedCategory?.name === category.name"
+      >
+        <button mat-raised-button color="accent">
+          {{ category.name }} ({{ category.count_questions }})
+        </button>
+      </mat-card>
+      }
+    </div>
+
+    <div class="selector-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Dificultad</mat-label>
+        <mat-select formControlName="difficulty" placeholder="Dificultad">
+          @for (difficulty of difficulties; track difficulties) {
+          <mat-option [value]="difficulty">{{ difficulty }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nº Tests</mat-label>
+        <mat-select formControlName="testCount" placeholder="Nº Tests">
+          @for (count of testCounts; track count) {
+          <mat-option [value]="count">{{ count }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">
+        INICIAR TEST
       </button>
-    </mat-card>
-    }
-  </div>
-
-  <div class="selector-container">
-    <mat-select placeholder="Dificultad">
-      @for (difficulty of difficulties; track difficulties) {
-      <mat-option>
-        {{ difficulty }}
-      </mat-option>
-      }
-    </mat-select>
-    <mat-select placeholder="Nº Tests">
-      @for (count of testCounts; track count) {
-      <mat-option>
-        {{ count }}
-      </mat-option>
-      }
-    </mat-select>
-  </div>
-
-  <div class="button-container">
-    <button mat-raised-button color="primary" (click)="navigateTest()">
-      !INICIAR TEST¡
-    </button>
-  </div>
+    </div>
+  </form>
 </div>
