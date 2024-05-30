@@ -1,6 +1,7 @@
 <app-header></app-header>
 <div class="form-container">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <p class="register-title"><u>Registrate</u></p>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input
@@ -64,16 +65,16 @@
       }
     </mat-form-field>
     <br />
-    <button mat-raised-button color="primary" type="submit">
-      Registrarse
-    </button>
-
-    <div class="additional-links">
-
-      <p>
-        ¿Ya tienes cuenta?
-        <a (click)="navigateLogin()">Inicia sesion</a>
-      </p>
+    <div class="register-bottom">
+      <button mat-raised-button color="primary" type="submit">
+        Registrarse
+      </button>
+      <div class="additional-links">
+        <p>
+          ¿Ya tienes <a (click)="navigateLogin()">cuenta</a>?
+          
+        </p>
+      </div>
     </div>
   </form>
 </div>
