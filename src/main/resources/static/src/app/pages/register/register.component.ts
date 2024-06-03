@@ -18,10 +18,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ChangeDetectorRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { HeaderComponent } from '../header/header.component';
-import { User, RegisterService } from '../../services/register.service';
+import { RegisterService } from '../../services/register.service';
+import { User } from '../../Models/User';
 
 @Component({
   selector: 'app-register',
