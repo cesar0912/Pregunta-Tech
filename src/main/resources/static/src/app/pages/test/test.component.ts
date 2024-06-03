@@ -10,18 +10,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from '../header/header.component';
 import { Router } from '@angular/router';
-
-interface Question {
-  id: string;
-  category: string;
-  level: string;
-  question: string;
-  answers: {
-    [key: string]: string;
-  };
-  correct_answer: string;
-  feedback?: string;
-}
+import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
+import { Question } from 'src/app/Models/Question';
 
 @Component({
   selector: 'app-test',
@@ -34,6 +24,7 @@ interface Question {
     MatCardModule,
     MatButtonModule,
     HeaderComponent,
+    FinalExamViewComponent,
   ],
 })
 export class TestComponent implements OnInit {
@@ -42,6 +33,7 @@ export class TestComponent implements OnInit {
   score: number = 0;
   testForm!: FormGroup;
   answersSelected: boolean = false;
+  examFinished: boolean = false;
 
   constructor(private fb: FormBuilder, private router: Router) {
     const navigation = this.router.getCurrentNavigation();
@@ -105,7 +97,11 @@ export class TestComponent implements OnInit {
       this.loadQuestion();
       this.testForm.reset();
     } else {
-      // Test finished logic here
+      this.examIsFinished();
     }
+  }
+
+  private examIsFinished(): void {
+    this.examFinished = true;
   }
 }
