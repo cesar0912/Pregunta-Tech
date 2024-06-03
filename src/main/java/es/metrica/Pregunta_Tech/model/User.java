@@ -106,6 +106,13 @@ public class User {
 		this.name = name;
 	}
 
+    
+	public User(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
 	public User() {}
 	
 	@Override
