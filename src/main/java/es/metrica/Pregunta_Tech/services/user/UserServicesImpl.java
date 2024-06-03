@@ -22,10 +22,10 @@ public class UserServicesImpl implements UserServices{
 	}
 	
 	
-	public String login(String email,String password) {
-		Optional<User>user=userRepository.getByEmail(email);
+	public String login(User userr) {
+		Optional<User>user=userRepository.getByEmail(userr.getEmail());
 		if(user.isPresent() ) {
-			if(user.get().getPassword().equals(password)) return "valid user";
+			if(user.get().getPassword().equals(userr.getPassword())) return "valid user";
 			
 			return "invalid password";
 		}

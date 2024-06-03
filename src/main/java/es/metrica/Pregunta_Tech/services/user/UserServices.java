@@ -4,7 +4,7 @@ import es.metrica.Pregunta_Tech.model.User;
 
 public interface UserServices {
 	
-	String login(String email,String password);
+	String login(User user);
 
 	 User register(String email,String password,String name,String surname) ;
 }
