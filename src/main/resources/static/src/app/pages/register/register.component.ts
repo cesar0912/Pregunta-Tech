@@ -21,13 +21,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-
-interface User {
-  email: string;
-  password: string;
-  name: string;
-  surname: string;
-}
+import { User, RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-register',
@@ -54,8 +48,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar,
-    private cdRef: ChangeDetectorRef
+    private readonly registerService: RegisterService,
+    private snackBar: MatSnackBar
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -84,14 +78,28 @@ export class RegisterComponent implements OnInit {
     };
   }
 
-  public send(): void {}
-
   onSubmit(): void {
+    this.sendUser();
+  }
+
+  private sendUser(): void {
     if (this.registerForm.valid) {
-      console.log(
-        'Formulario válido. Enviar datos de inicio de sesión:',
-        this.registerForm.value
-      );
+      const user: User = this.registerForm.value;
+      this.registerService.sendRegister(user).subscribe({
+        next: (response) => {
+          console.log('Registro exitoso:', response);
+          this.snackBar.open('Registro exitoso', 'Cerrar', {
+            duration: 3000,
+          });
+          this.navigateLogin();
+        },
+        error: (error) => {
+          console.error('Error en el registro:', error);
+          this.snackBar.open('Error en el registro', 'Cerrar', {
+            duration: 3000,
+          });
+        },
+      });
     } else {
       console.log('Formulario inválido. Comprueba los campos.');
     }

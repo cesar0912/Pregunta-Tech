@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface ApiResponse {
+interface ApiResponseCategory {
   categories: Category[];
   totalCategories: number;
   totalQuestions: number;
@@ -22,7 +22,7 @@ export class PreguntaApiCategoriesService {
 
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.apiUrl);
+  getCategories(): Observable<ApiResponseCategory> {
+    return this.http.get<ApiResponseCategory>(this.apiUrl);
   }
 }
