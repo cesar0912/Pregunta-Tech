@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.checkLogin();
   }
+
   private checkLogin(): void {
     if (this.loginForm.valid) {
       const user: User = this.loginForm.value;
