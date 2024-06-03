@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -19,20 +21,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column
-    String email;
+    private String email;
 
     @Column
-    String password;
+    private String password;
 
     @Column
-    String surname;
+    private String surname;
 
     @Column
-    String name;
-
+    private String name;
+    
+    @ManyToOne
+    @JoinColumn(name = "organization_id", nullable = true)
+    private Organization organization;
     // Getters and setters (optional, but recommended for encapsulation)
     public Long getId() {
         return id;
@@ -73,13 +78,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    /* TODO
-	@ManyToMany(mappedBy = "users")
-	...
-	List<Exam> done;
-	@ManyToOne
-	Long idGrupo
-	*/
 	public User(Long id, String email, String password, String surname, String name) {
 		super();
 		this.id = id;
