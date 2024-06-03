@@ -56,13 +56,13 @@ class PreguntaTechApplicationTests {
 	void basicTestLogin() {
 		Optional<User> user=Optional.of(new User(1L,"admin","admin","",""));
         when(userRepository.getByEmail("admin")).thenReturn(user);
-		String testLogin = userServices.login("admin", "admin");
+		String testLogin = userServices.login(new User("admin", "admin","",""));
 		Assertions.assertEquals("valid user", testLogin);
 		
-		testLogin = userServices.login("nononon", "admin");
+		testLogin = userServices.login(new User("nonono", "admin","",""));
 		Assertions.assertEquals("invalid user", testLogin);
 		
-		testLogin = userServices.login("admin", "nonono");
+		testLogin = userServices.login(new User("admin", "nonono","",""));
 		Assertions.assertEquals("invalid password", testLogin);
 	}
 	@Test

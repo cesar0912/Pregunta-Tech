@@ -1,36 +1,35 @@
-package es.metrica.Pregunta_Tech.controller.registercontroller;
+package es.metrica.Pregunta_Tech.controller.logincontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
 
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.services.user.UserServices;
-@RestController
-@RequestMapping("/register")
-@CrossOrigin("http://localhost:4200/")
-public class RegisterControllerImpl implements RegisterControllerInterface{
 
+@RestController
+@RequestMapping("/login")
+@CrossOrigin("http://localhost:4200/")
+public class LoginControllerImpl implements LoginControllerInterface  {
+
+	private final UserServices serv;
 	
-	private final	UserServices serv;
 	
 	@Autowired
-	public RegisterControllerImpl(UserServices serv) {
-		
-		this.serv=serv;
-		
+	public LoginControllerImpl(UserServices serv) {
+		super();
+		this.serv = serv;
 	}
-	
 
-	@PostMapping
+
+    @PostMapping
 	@Override
-	public User register(@RequestBody User user) {
-		return serv.register(user);
+	public String login(@RequestBody User user) {
+		return serv.login(user);
 	}
 
+	
 }

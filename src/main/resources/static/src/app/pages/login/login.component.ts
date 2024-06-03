@@ -15,7 +15,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { HeaderComponent } from '../header/header.component'; // Importa el HeaderComponent
+import { HeaderComponent } from '../header/header.component';
+import { LoginService } from '../../services/login.service';
+import { User } from '../../Models/User';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +42,12 @@ import { HeaderComponent } from '../header/header.component'; // Importa el Head
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private readonly router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private readonly router: Router,
+    private readonly loginService: LoginService,
+    private snackBar: MatSnackBar
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -49,19 +57,43 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(): void {
+    this.checkLogin();
+  }
+
+  private checkLogin(): void {
     if (this.loginForm.valid) {
-      console.log(
-        'Formulario válido. Enviar datos de inicio de sesión:',
-        this.loginForm.value
-      );
+      const user: User = this.loginForm.value;
+      this.loginService.sendRegister(user).subscribe({
+        next: (response) => {
+          console.log('Login exitoso:', response);
+          this.snackBar.open('Login exitoso', 'Cerrar', {
+            duration: 3000,
+          });
+          this.updateLanding();
+        },
+        error: (error) => {
+          console.error('Error en el Login:', error);
+          this.snackBar.open('Error en el Login', 'Cerrar', {
+            duration: 3000,
+          });
+        },
+      });
     } else {
       console.log('Formulario inválido. Comprueba los campos.');
     }
   }
+
+  updateLanding() {
+    this.navigateLanding();
+  }
+
   public navigateRegister(): void {
     this.router.navigate(['register']);
   }
   public navigateResetPassword(): void {
     this.router.navigate(['reset-password']);
+  }
+  public navigateLanding(): void {
+    this.router.navigate(['landing']);
   }
 }

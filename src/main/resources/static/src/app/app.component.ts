@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PreguntaApiCategoriesService } from './services/pregunta-api-categories.service';
 import { PreguntaApiQuestionsService } from './services/pregunta-api-questions.service';
 import { RegisterService } from './services/register.service';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { RegisterService } from './services/register.service';
     PreguntaApiCategoriesService,
     PreguntaApiQuestionsService,
     RegisterService,
+    LoginService,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
