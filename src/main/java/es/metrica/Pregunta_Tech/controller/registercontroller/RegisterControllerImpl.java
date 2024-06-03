@@ -18,6 +18,7 @@ public class RegisterControllerImpl implements RegisterControllerInterface{
 	
 	@Autowired
 	public RegisterControllerImpl(UserServices serv) {
+		
 		this.serv=serv;
 		
 	}
@@ -26,7 +27,6 @@ public class RegisterControllerImpl implements RegisterControllerInterface{
 	@PostMapping
 	@Override
 	public User register(@RequestBody User user) {
-	
 		return serv.register(user);
 	}
 
