@@ -34,11 +34,12 @@ public class UserServicesImpl implements UserServices{
 		return "invalid user";
 		
 	}
-	public User register(String email,String password,String name,String surname) {
+	public User register(User user) {
 		
 
-		if(!userRepository.getByEmail(email).isPresent()) {
-			return userRepository.save(new User(email,password,name,surname));
+		if(!userRepository.getByEmail(user.getEmail()).isPresent()) {
+			
+			return userRepository.save(user);
 		}
 		
 		return null;
