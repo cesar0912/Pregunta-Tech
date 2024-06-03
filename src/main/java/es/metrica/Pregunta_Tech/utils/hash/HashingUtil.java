@@ -6,7 +6,6 @@ import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
 @Component
-
 public class HashingUtil {
 
 	Argon2 argon;

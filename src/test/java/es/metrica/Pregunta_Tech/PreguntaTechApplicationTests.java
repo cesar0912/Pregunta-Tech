@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 
+import es.metrica.Pregunta_Tech.model.LoginResult;
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.repository.User.UserRepository;
 
@@ -54,16 +55,21 @@ class PreguntaTechApplicationTests {
 	//aqui deberiamos de comprobar mas cosas del login y del register cuando tengamos la lógica implementada
 	@Test
 	void basicTestLogin() {
-		Optional<User> user=Optional.of(new User(1L,"admin","admin","",""));
+		String passwordHashed="$argon2id$v=19$m=1024,t=1,p=1$aiNA9JFgbgmVaB3LV2+EQg$aK76dTL9WU3V9/7RyR/EgkBhjr4Sg+GsNhaXsl19JQY";
+		Optional<User> user=Optional.of(new User(1L,"admin",passwordHashed,"",""));
         when(userRepository.getByEmail("admin")).thenReturn(user);
-		String testLogin = userServices.login(new User("admin", "admin","",""));
-		Assertions.assertEquals("valid user", testLogin);
+		LoginResult testLogin = userServices.login(new User("admin","12345","",""));
+		Assertions.assertEquals("valid user", testLogin.getToken());
+		Assertions.assertNull(testLogin.getError());
 		
-		testLogin = userServices.login(new User("nonono", "admin","",""));
-		Assertions.assertEquals("invalid user", testLogin);
+		testLogin = userServices.login(new User("nonono", "12345","",""));
+		Assertions.assertNull(testLogin.getToken());
+		Assertions.assertEquals("invalid user", testLogin.getError());
 		
 		testLogin = userServices.login(new User("admin", "nonono","",""));
-		Assertions.assertEquals("invalid password", testLogin);
+		Assertions.assertNull( testLogin.getToken());
+		Assertions.assertEquals("invalid password", testLogin.getError());
+
 	}
 	@Test
 	void basicTestRegister() {

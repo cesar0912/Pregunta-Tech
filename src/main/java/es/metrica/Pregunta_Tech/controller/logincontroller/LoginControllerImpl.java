@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.metrica.Pregunta_Tech.model.LoginResult;
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.services.user.UserServices;
 
@@ -27,8 +28,9 @@ public class LoginControllerImpl implements LoginControllerInterface  {
 
     @PostMapping
 	@Override
-	public String login(@RequestBody User user) {
+	public LoginResult login(@RequestBody User user) {
 		return serv.login(user);
+		
 	}
 
 	
