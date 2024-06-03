@@ -11,6 +11,7 @@ import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.services.user.UserServices;
 @RestController
 @RequestMapping("/register")
+@CrossOrigin("http://localhost:4200/")
 public class RegisterControllerImpl implements RegisterControllerInterface{
 
 	
