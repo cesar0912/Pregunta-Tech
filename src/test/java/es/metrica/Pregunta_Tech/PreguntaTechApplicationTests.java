@@ -73,12 +73,12 @@ class PreguntaTechApplicationTests {
 
         when(userRepository.save(user)).thenReturn(user);
 
-		User testLogin = userServices.register("user1","user1","user1","user1");
+		User testLogin = userServices.register(user);
 		Assertions.assertNotNull( testLogin);
 		user=new User("","","","");
 		  when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
 		  when(userRepository.save(user)).thenReturn(user);
-		  testLogin = userServices.register("","","","");
+		  testLogin = userServices.register(user);
 			Assertions.assertNull( testLogin);
 
 	}
