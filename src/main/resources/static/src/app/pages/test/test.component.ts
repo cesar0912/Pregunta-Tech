@@ -8,100 +8,54 @@ import {
 } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from '../header/header.component';
+import { Router } from '@angular/router';
+
+interface Question {
+  id: string;
+  category: string;
+  level: string;
+  question: string;
+  answers: {
+    [key: string]: string;
+  };
+  correct_answer: string;
+  feedback?: string;
+}
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    HeaderComponent,
+  ],
 })
 export class TestComponent implements OnInit {
-  questions = [
-    {
-      id: '89',
-      category: 'javascript',
-      level: 'facil',
-      question:
-        'const person = {name:"John", age:31, city:"New York"};... ¿cuál es la forma correcta de acceder a los valores?',
-      answers: {
-        answer_a: 'person.name',
-        answer_b: 'person["name"]',
-        answer_c: 'Ambas son correctas',
-      },
-      correct_answer: 'answer_c',
-    },
-    {
-      id: '325',
-      category: 'javascript',
-      level: 'facil',
-      question:
-        '¿Qué sentencia puede tomar una sola expresión como entrada y luego buscar a través de un número de opciones hasta que se encuentre una que coincida con ese valor?',
-      answers: {
-        answer_a: 'else',
-        answer_b: 'when',
-        answer_c: 'switch',
-        answer_d: 'if',
-      },
-      correct_answer: 'answer_c',
-    },
-    {
-      id: '358',
-      category: 'javascript',
-      level: 'facil',
-      question:
-        '¿Qué método de la API del navegador se utiliza para hacer una petición HTTP de forma nativa?',
-      answers: {
-        answer_a: 'fetch("https://some-url-here.com")',
-        answer_b: 'axios.get("https://some-url-here.com")',
-        answer_c: 'makeRequest("https://some-url-here.com")',
-      },
-      correct_answer: 'answer_a',
-    },
-    {
-      id: '66',
-      category: 'javascript',
-      level: 'facil',
-      question: 'Cómo insertar un comentario que tiene más de una línea?',
-      answers: {
-        answer_a: '/*Este comentario tiene más de una línea.*/',
-        answer_b: '<!--Este comentario tiene más de una línea.-->',
-        answer_c: '//Este comentario tiene más de una línea.//',
-      },
-      correct_answer: 'answer_a',
-      feedback:
-        ' Los comentarios comienzan con /* y terminan con */ . Cualquier texto entre /* y */ serán ignorados por JavaScript.',
-    },
-    {
-      id: '78',
-      category: 'javascript',
-      level: 'facil',
-      question:
-        '¿Cuál es la forma correcta de incluir un archivo JS externo en HTML?',
-      answers: {
-        answer_a: '<script src="main.js">',
-        answer_b: '<script href="main.js">',
-        answer_c: '<script name="main.js">',
-      },
-      correct_answer: 'answer_a',
-      feedback:
-        "La etiqueta HTML <script></script> solo puede utilizar el atributo 'src', 'href' es usado en enlaces con etiqueta <a></a>.",
-    },
-  ];
-
+  questions: Question[] = [];
   currentQuestionIndex: number = 0;
   score: number = 0;
   testForm!: FormGroup;
   answersSelected: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.questions = navigation?.extras?.state?.['questions'] || [];
+
     this.testForm = this.fb.group({
       answers: this.fb.array([]),
     });
   }
 
   ngOnInit() {
-    this.loadQuestion();
+    if (this.questions.length > 0) {
+      this.loadQuestion();
+    }
   }
 
   get answers(): FormArray {
