@@ -45,7 +45,7 @@ public class Questions {
         joinColumns = @JoinColumn(name = "exam_id"),
         inverseJoinColumns = @JoinColumn(name = "question_id")
     )
-    private List<Exam> exam;
+    private List<Exam> examQuestion;
 	public Questions() {}
 	public Questions(Long id, String category, String level, String question, List<String> answers,
 			String correct_Answer, String feedBack) {

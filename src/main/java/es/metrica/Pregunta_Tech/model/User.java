@@ -1,5 +1,6 @@
 package es.metrica.Pregunta_Tech.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -38,6 +41,13 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = true)
     private Organization organization;
+    @ManyToMany
+    @JoinTable(
+        name = "user_exam",
+        joinColumns = @JoinColumn(name = "exam_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<Exam> examUser;
     // Getters and setters (optional, but recommended for encapsulation)
     public Long getId() {
         return id;

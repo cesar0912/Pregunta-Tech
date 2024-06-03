@@ -15,6 +15,9 @@ public class Exam {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToMany(mappedBy = "exam")
-    private List<Questions> questions; 
+	@ManyToMany(mappedBy = "examQuestion")
+    private List<Questions> questions;
+	@ManyToMany(mappedBy = "examUser")
+    private List<User> users;
+	
 }
