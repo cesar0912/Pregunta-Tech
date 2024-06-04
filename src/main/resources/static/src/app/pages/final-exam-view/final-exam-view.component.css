@@ -1,0 +1,45 @@
+.final-exam-container {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  margin-top: 15%;
+}
+
+.final-exam-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.final-exam-container p {
+  font-size: 18px;
+  color: #666;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.final-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.final-links a {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: background-color 0.3s;
+}
+
+.final-links a:hover {
+  background-color: #0056b3;
+}

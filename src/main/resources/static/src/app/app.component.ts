@@ -5,6 +5,7 @@ import { PreguntaApiCategoriesService } from './services/pregunta-api-categories
 import { PreguntaApiQuestionsService } from './services/pregunta-api-questions.service';
 import { RegisterService } from './services/register.service';
 import { LoginService } from './services/login.service';
+import { AnswersService } from './services/answer.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { LoginService } from './services/login.service';
     PreguntaApiQuestionsService,
     RegisterService,
     LoginService,
+    AnswersService,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

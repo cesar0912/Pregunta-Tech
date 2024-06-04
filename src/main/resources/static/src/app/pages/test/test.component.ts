@@ -10,18 +10,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from '../header/header.component';
 import { Router } from '@angular/router';
-
-interface Question {
-  id: string;
-  category: string;
-  level: string;
-  question: string;
-  answers: {
-    [key: string]: string;
-  };
-  correct_answer: string;
-  feedback?: string;
-}
+import { Question } from 'src/app/Models/Question';
+import { AnswersService } from '../../services/answer.service';
+import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
 
 @Component({
   selector: 'app-test',
@@ -34,6 +25,7 @@ interface Question {
     MatCardModule,
     MatButtonModule,
     HeaderComponent,
+    FinalExamViewComponent,
   ],
 })
 export class TestComponent implements OnInit {
@@ -42,11 +34,16 @@ export class TestComponent implements OnInit {
   score: number = 0;
   testForm!: FormGroup;
   answersSelected: boolean = false;
+  examFinished: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private service: AnswersService
+  ) {
     const navigation = this.router.getCurrentNavigation();
     this.questions = navigation?.extras?.state?.['questions'] || [];
-
+    service.setScore(0);
     this.testForm = this.fb.group({
       answers: this.fb.array([]),
     });
@@ -65,6 +62,7 @@ export class TestComponent implements OnInit {
   loadQuestion(): void {
     const currentQuestion = this.questions[this.currentQuestionIndex];
     this.answers.clear();
+    this.service.setQuestions(this.questions.length);
     for (const key in currentQuestion.answers) {
       this.answers.push(this.fb.control(false));
     }
@@ -93,6 +91,7 @@ export class TestComponent implements OnInit {
 
     if (allCorrect && allSelectedCorrect) {
       this.score++;
+      this.service.setScore(this.score);
     }
 
     this.answersSelected = true;
@@ -105,7 +104,17 @@ export class TestComponent implements OnInit {
       this.loadQuestion();
       this.testForm.reset();
     } else {
-      // Test finished logic here
+      this.examIsFinished();
     }
+  }
+
+  private examIsFinished(): void {
+    this.examFinished = true;
+  }
+  getScore(): number {
+    return this.score;
+  }
+  getQuestionsLength(): number {
+    return this.questions.length;
   }
 }
