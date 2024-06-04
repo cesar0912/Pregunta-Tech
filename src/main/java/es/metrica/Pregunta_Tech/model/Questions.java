@@ -1,8 +1,6 @@
 package es.metrica.Pregunta_Tech.model;
 
 import java.util.List;
-//TODO refactor
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +35,7 @@ public class Questions {
 	private String correctAnswer;
 	
 	@Column
-	private String FeedBack;
+	private String feedback;
 	
 	@ManyToMany
     @JoinTable(
@@ -48,15 +46,15 @@ public class Questions {
     private List<Exam> examQuestion;
 	public Questions() {}
 	public Questions(Long id, String category, String level, String question, List<String> answers,
-			String correct_Answer, String feedBack) {
+			String correctAnswer, String feedBack) {
 		super();
 		this.id = id;
 		this.category = category;
 		level = level;
 		question = question;
 		this.answers = answers;
-		correctAnswer = correct_Answer;
-		FeedBack = feedBack;
+		correctAnswer = correctAnswer;
+		feedback = feedBack;
 	}
 	public Long getId() {
 		return id;
@@ -88,17 +86,17 @@ public class Questions {
 	public void setAnswers(List<String> answers) {
 		this.answers = answers;
 	}
-	public String getCorrect_Answer() {
+	public String getCorrectAnswer() {
 		return correctAnswer;
 	}
-	public void setCorrect_Answer(String correct_Answer) {
-		correctAnswer = correct_Answer;
+	public void setCorrectAnswer(String correctAnswer) {
+		correctAnswer = correctAnswer;
 	}
 	public String getFeedBack() {
-		return FeedBack;
+		return feedback;
 	}
 	public void setFeedBack(String feedBack) {
-		FeedBack = feedBack;
+		feedback = feedBack;
 	}
 	
 }
