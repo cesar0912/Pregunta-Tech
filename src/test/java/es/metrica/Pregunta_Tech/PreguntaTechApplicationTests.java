@@ -1,6 +1,7 @@
 package es.metrica.Pregunta_Tech;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import org.springframework.test.context.ActiveProfiles;
 import es.metrica.Pregunta_Tech.model.LoginResult;
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.model.exceptions.InvalidQueryException;
+import es.metrica.Pregunta_Tech.model.exceptions.InvalidUrlException;
 import es.metrica.Pregunta_Tech.repository.User.UserRepository;
 import es.metrica.Pregunta_Tech.services.questions.QuestionsServices;
 import es.metrica.Pregunta_Tech.services.user.UserServices;
@@ -102,7 +104,12 @@ class PreguntaTechApplicationTests {
 		List<Object> res = questionServices.getQuestionsFromApi(url);
 		Assertions.assertFalse(res.isEmpty());
 		Assertions.assertEquals(5, res.size());
+
+		assertThrows(InvalidQueryException.class, () -> {questionServices.getQuestionsFromApi("https://www.preguntapi.dev/api/categories/javascript?level=aaaa&limit=5");});
 		
+		assertThrows(InvalidUrlException.class, () -> {questionServices.getQuestionsFromApi("--https://www.preguntapi.dev/api/categories/javascript?level=facil&limit=5");});
+		
+
 	}
 
 }
