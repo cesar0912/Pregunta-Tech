@@ -23,11 +23,11 @@ interface QuestionApiResponse {
   providedIn: 'root',
 })
 export class PreguntaApiQuestionsService {
-  urlEnvio: string = 'http/localhost:8080/test';
+  urlEnvio: string = 'http://localhost:8080/test';
 
   constructor(private http: HttpClient) {}
 
-  getQuestions(urlTest: string): Observable<QuestionApiResponse> {
-    return this.http.post<QuestionApiResponse>(this.urlEnvio, urlTest);
+  getQuestions(urlTest: string): Observable<Question[]> {
+    return this.http.post<Question[]>(this.urlEnvio, { url: urlTest });
   }
 }
