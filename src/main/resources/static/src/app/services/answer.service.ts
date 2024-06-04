@@ -13,7 +13,7 @@ export class AnswersService {
   }
   setQuestions(questions:number): void {
     this.questions = questions;
-  }
+  } 
 
   getScore(): number {
     return this.score;
