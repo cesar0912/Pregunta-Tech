@@ -18,7 +18,7 @@ export interface Category {
   providedIn: 'root',
 })
 export class PreguntaApiCategoriesService {
-  private apiUrl = 'https://www.preguntapi.dev/api/categories';
+  private apiUrl = 'http://localhost:8080/categories';
 
   constructor(private http: HttpClient) {}
 
