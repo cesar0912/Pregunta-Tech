@@ -10,9 +10,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from '../header/header.component';
 import { Router } from '@angular/router';
-import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
 import { Question } from 'src/app/Models/Question';
-import { AnswerService } from "../answer.service";
+import { AnswersService } from '../../services/answer.service';
+import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
+
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -35,7 +36,11 @@ export class TestComponent implements OnInit {
   answersSelected: boolean = false;
   examFinished: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router,private service: AnswerService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private service: AnswersService
+  ) {
     const navigation = this.router.getCurrentNavigation();
     this.questions = navigation?.extras?.state?.['questions'] || [];
     service.setScore(0);
@@ -106,10 +111,10 @@ export class TestComponent implements OnInit {
   private examIsFinished(): void {
     this.examFinished = true;
   }
-  getScore(): number{
+  getScore(): number {
     return this.score;
   }
-  getQuestionsLength():number{
+  getQuestionsLength(): number {
     return this.questions.length;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AnswersService } from '../answers.service';
+import { AnswersService } from '../../services/answer.service';
 
 @Component({
   selector: 'app-final-exam-view',
@@ -15,7 +15,10 @@ export class FinalExamViewComponent implements OnInit {
   porcentajeAciertos: number = 0;
   mensaje: string = '';
 
-  constructor(private readonly router: Router, private service: AnswersService) {}
+  constructor(
+    private readonly router: Router,
+    private service: AnswersService
+  ) {}
 
   ngOnInit() {
     this.score = this.getScore();
@@ -37,7 +40,9 @@ export class FinalExamViewComponent implements OnInit {
   }
 
   calcularPorcentajeAciertos(): number {
-    return (this.totalQuestions > 0) ? (this.score / this.totalQuestions) * 100 : 0;
+    return this.totalQuestions > 0
+      ? (this.score / this.totalQuestions) * 100
+      : 0;
   }
 
   obtenerMensaje(porcentaje: number): string {
