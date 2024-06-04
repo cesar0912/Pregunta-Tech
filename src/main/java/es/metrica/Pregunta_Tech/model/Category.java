@@ -1,7 +1,8 @@
 package es.metrica.Pregunta_Tech.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Category {
-	
     private String name;
     private int countQuestions;
     private String link;

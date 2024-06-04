@@ -9,26 +9,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.metrica.PreguntaTech.services.category.CategoryServiceInterface;
 import es.metrica.Pregunta_Tech.model.Category;
+import es.metrica.Pregunta_Tech.model.CategoryResponse;
+import es.metrica.Pregunta_Tech.services.category.CategoryServices;
 
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin("http://localhost:4200/")
 public class CategoryControllerImpl implements CategoryControllerInterface {
+  
+	
+	private final  CategoryServices serv;
 
-    CategoryServiceInterface serv;
-
-    @Autowired
-    public CategoryControllerImpl(CategoryServiceInterface serv) {
+	@Autowired
+    public CategoryControllerImpl(CategoryServices serv) {
     	super();
         this.serv = serv;
     }
 
     @Override
-    @GetMapping("/categories")
-    public ResponseEntity<List<Category>> obtenerCategorias() {
-        List<Category> categories = serv.getCategories();
+    @GetMapping()
+    public ResponseEntity<CategoryResponse> obtenerCategorias() {
+    	CategoryResponse categories = serv.getCategories();
         return ResponseEntity.ok(categories);
     }
 }
