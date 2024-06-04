@@ -175,17 +175,16 @@ export class LandingComponent implements OnInit {
       state: { questions: this.questionsMocked },
     });
 
-    /*    TODO Pendiente de implementar para conectar al Back por fallo en política CORS
-        this.preguntaApiQuestionsService.getQuestions(apiUrl).subscribe({
-        next: (response: { questions: any }) => {
-          this.router.navigate(['test'], {
-            state: { questions: response.questions },
-          });
-        },
-        error: (error: any) => {
-          console.error('Error fetching questions', error);
-        },
-      }); */
+    this.preguntaApiQuestionsService.getQuestions(apiUrl).subscribe({
+      next: (response: { questions: any }) => {
+        this.router.navigate(['test'], {
+          state: { questions: response.questions },
+        });
+      },
+      error: (error: any) => {
+        console.error('Error fetching questions', error);
+      },
+    });
   }
 
   public navigateLogin(): void {
