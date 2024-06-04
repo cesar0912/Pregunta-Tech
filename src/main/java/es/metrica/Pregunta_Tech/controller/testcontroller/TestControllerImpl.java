@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import PreguntaTech.utils.model.url.UrlResult;
 import es.metrica.Pregunta_Tech.services.questions.QuestionsServices;
 
 @RestController
@@ -30,9 +31,8 @@ public class TestControllerImpl implements TestControllerInterface {
 	
 	@Override
 	@PostMapping()
-	public List<Object> getTest(@RequestBody String url) {
-		return services.getQuestionsFromApi(url);
+	public List<Object> getTest(@RequestBody UrlResult url) {
+		return services.getQuestionsFromApi(url.getUrl());
 	}
-	
 
 }
