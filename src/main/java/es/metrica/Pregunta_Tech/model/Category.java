@@ -1,18 +1,16 @@
 package es.metrica.Pregunta_Tech.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Category {
     private String name;
-    private int countQuestions;
+    private int count_questions;
     private String link;
 
 
     public Category() {}
 
-    public Category(String name, int countQuestions, String link) {
+    public Category(String name, int count_questions, String link) {
         this.name = name;
-        this.countQuestions = countQuestions;
+        this.count_questions = count_questions;
         this.link = link;
     }
 
@@ -24,12 +22,12 @@ public class Category {
         this.name = name;
     }
 
-    public int getCountQuestions() {
-        return countQuestions;
+    public int getcount_questions() {
+        return count_questions;
     }
 
-    public void setCountQuestions(int countQuestions) {
-        this.countQuestions = countQuestions;
+    public void setcount_questions(int countQuestions) {
+        this.count_questions = countQuestions;
     }
 
     public String getLink() {
