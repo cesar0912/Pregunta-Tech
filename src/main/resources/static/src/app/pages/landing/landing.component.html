@@ -7,7 +7,7 @@
         (click)="selectCategory(category)"
         [class.selected]="selectedCategory?.name === category.name"
       >
-        <button mat-raised-button color="accent">
+        <button mat-raised-button color="accent" type="button">
           {{ category.name }} ({{ category.count_questions }})
         </button>
       </mat-card>
