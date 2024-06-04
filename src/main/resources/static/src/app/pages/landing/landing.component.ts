@@ -168,7 +168,6 @@ export class LandingComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log('entro en onSubmit()');
     const apiUrl = this.createTestRequest();
 
     this.router.navigate(['test'], {
