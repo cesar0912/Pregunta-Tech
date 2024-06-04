@@ -12,7 +12,7 @@ import { HeaderComponent } from '../header/header.component';
 import { Router } from '@angular/router';
 import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
 import { Question } from 'src/app/Models/Question';
-
+import { AnswerService } from "../answer.service";
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -35,10 +35,10 @@ export class TestComponent implements OnInit {
   answersSelected: boolean = false;
   examFinished: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,private service: AnswerService) {
     const navigation = this.router.getCurrentNavigation();
     this.questions = navigation?.extras?.state?.['questions'] || [];
-
+    service.setScore(0);
     this.testForm = this.fb.group({
       answers: this.fb.array([]),
     });
@@ -57,6 +57,7 @@ export class TestComponent implements OnInit {
   loadQuestion(): void {
     const currentQuestion = this.questions[this.currentQuestionIndex];
     this.answers.clear();
+    this.service.setQuestions(this.questions.length);
     for (const key in currentQuestion.answers) {
       this.answers.push(this.fb.control(false));
     }
@@ -85,6 +86,7 @@ export class TestComponent implements OnInit {
 
     if (allCorrect && allSelectedCorrect) {
       this.score++;
+      this.service.setScore(this.score);
     }
 
     this.answersSelected = true;
@@ -103,5 +105,11 @@ export class TestComponent implements OnInit {
 
   private examIsFinished(): void {
     this.examFinished = true;
+  }
+  getScore(): number{
+    return this.score;
+  }
+  getQuestionsLength():number{
+    return this.questions.length;
   }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AnswersService } from '../answers.service';
+
 @Component({
   selector: 'app-final-exam-view',
   templateUrl: './final-exam-view.component.html',
@@ -8,12 +10,45 @@ import { Router } from '@angular/router';
   imports: [],
 })
 export class FinalExamViewComponent implements OnInit {
-  constructor(private readonly router: Router) {}
+  score: number = 0;
+  totalQuestions: number = 0;
+  porcentajeAciertos: number = 0;
+  mensaje: string = '';
+
+  constructor(private readonly router: Router, private service: AnswersService) {}
 
   ngOnInit() {
-    console.log("compnente creadp");
+    this.score = this.getScore();
+    this.totalQuestions = this.getQuestions();
+    this.porcentajeAciertos = this.calcularPorcentajeAciertos();
+    this.mensaje = this.obtenerMensaje(this.porcentajeAciertos);
   }
+
   navigateLanding() {
     this.router.navigate(['landing']);
+  }
+
+  getScore(): number {
+    return this.service.getScore();
+  }
+
+  getQuestions(): number {
+    return this.service.getQuestions();
+  }
+
+  calcularPorcentajeAciertos(): number {
+    return (this.totalQuestions > 0) ? (this.score / this.totalQuestions) * 100 : 0;
+  }
+
+  obtenerMensaje(porcentaje: number): string {
+    if (porcentaje === 100) {
+      return '¡Perfecto! ¡Todas las respuestas son correctas!';
+    } else if (porcentaje >= 80) {
+      return '¡Excelente trabajo! La mayoría de tus respuestas son correctas.';
+    } else if (porcentaje >= 50) {
+      return 'Buen intento, sigue practicando.';
+    } else {
+      return 'Sigue practicando, puedes mejorar.';
+    }
   }
 }
