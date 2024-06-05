@@ -2,17 +2,17 @@
   <a (click)="navigateLanding()">PreguntaTech</a>
   <span class="spacer"></span>
   @if (isLoggedIn) {
-    <button mat-button (click)="navigateNewExam()">Nuevo ExAmen</button>
-    <button mat-button (click)="navigateViewExams()">Ver Examenes</button>
+    <button mat-button class="custom-button" (click)="navigateNewExam()">Nuevo Examen</button>
+    <button mat-button class="custom-button" (click)="navigateViewExams()">Ver Examenes</button>
     <mat-menu #userMenu="matMenu">
-    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+      <button mat-menu-item (click)="logout()">Cerrar sesión</button>
     </mat-menu>
-    <mat-icon [matMenuTriggerFor]="userMenu" aria-hidden="false" aria-label="Example user verified icon">
-    account_circle
+    <mat-icon [matMenuTriggerFor]="userMenu" aria-hidden="false" aria-label="Example user verified icon" class="custom-icon">
+      account_circle
     </mat-icon>
-  }@else {
-  <mat-icon (click)="navigateLogin()" aria-hidden="false" aria-label="Example user verified icon">
-    account_circle
-  </mat-icon>
+  } @else {
+    <mat-icon (click)="navigateLogin()" aria-hidden="false" aria-label="Example user verified icon" class="custom-icon">
+      account_circle
+    </mat-icon>
   }
 </mat-toolbar>
