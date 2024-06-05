@@ -1,6 +1,9 @@
 package es.metrica.PreguntaTech.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,17 +35,13 @@ public class Questions {
 	private List<String> answers;
 	
 	@Column(name="correct_answer")
+	@JsonProperty("correct_answer")
 	private String correctAnswer;
 	
 	@Column
 	private String feedback;
 	
-	@ManyToMany
-    @JoinTable(
-        name = "questions_exam",
-        joinColumns = @JoinColumn(name = "exam_id"),
-        inverseJoinColumns = @JoinColumn(name = "question_id")
-    )
+	@ManyToMany(mappedBy = "questions")
     private List<Exam> examQuestion;
 	public Questions() {}
 	public Questions(Long id, String category, String level, String question, List<String> answers,
@@ -98,5 +97,16 @@ public class Questions {
 	public void setFeedBack(String feedBack) {
 		feedback = feedBack;
 	}
+	public Questions(String category, String level, String question, List<String> answers, String correctAnswer,
+			String feedback) {
+		super();
+		this.category = category;
+		this.level = level;
+		this.question = question;
+		this.answers = answers;
+		this.correctAnswer = correctAnswer;
+		this.feedback = feedback;
+	}
+	
 	
 }

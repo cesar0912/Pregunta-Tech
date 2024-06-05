@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
+import es.metrica.PreguntaTech.repository.exam.ExamRepository;
+import es.metrica.PreguntaTech.repository.questions.QuestionsRepository;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 
 @Profile("test")
@@ -20,4 +22,16 @@ public class MocksTestConfiguration {
 	public UserRepository nameService() {
 		return Mockito.mock(UserRepository.class);
 	}
+	
+	@Bean
+	@Primary
+	public QuestionsRepository questionRepo() {
+		return Mockito.mock(QuestionsRepository.class);
+	}
+	@Bean
+	@Primary
+	public ExamRepository examRepo() {
+		return Mockito.mock(ExamRepository.class);
+	}
+	
 }
