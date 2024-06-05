@@ -19,6 +19,7 @@ import { HeaderComponent } from '../header/header.component';
 import { LoginService } from '../../services/login.service';
 import { User } from '../../Models/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -69,7 +71,7 @@ export class LoginComponent implements OnInit {
           this.snackBar.open('Login exitoso', 'Cerrar', {
             duration: 3000,
           });
-          this.updateLanding();
+          this.updateLanding(response);
         },
         error: (error) => {
           console.error('Error en el Login:', error);
@@ -83,16 +85,20 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  updateLanding() {
+  updateLanding(token: string) {
+    this.authService.setToken(token);
+    console.log(this.authService.getToken);
     this.navigateLanding();
   }
 
   public navigateRegister(): void {
     this.router.navigate(['register']);
   }
+
   public navigateResetPassword(): void {
     this.router.navigate(['reset-password']);
   }
+
   public navigateLanding(): void {
     this.router.navigate(['landing']);
   }
