@@ -1,1 +1,39 @@
-<p>new-exam works!</p>
+<app-header></app-header>
+<div class="form-container">
+  <form [formGroup]="examForm" (ngSubmit)="agregarPregunta()">
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <input matInput formControlName="category" placeholder="Ingrese la categoría" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nivel</mat-label>
+      <input matInput formControlName="level" placeholder="Ingrese el nivel" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Pregunta</mat-label>
+      <textarea matInput formControlName="question" placeholder="Ingrese la pregunta" required></textarea>
+    </mat-form-field>
+
+  <div *ngFor="let answer of preguntaActual.answers | keyvalue">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ answer.key }}</mat-label>
+      <input matInput [formControlName]="answer.key" placeholder="Ingrese la respuesta" required>
+    </mat-form-field>
+  </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Respuesta correcta</mat-label>
+      <input matInput formControlName="correct_answer" placeholder="Ingrese la respuesta correcta" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Feedback</mat-label>
+      <textarea matInput formControlName="feedback" placeholder="Ingrese el feedback"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button type="button" (click)="editarPreguntaAnterior()">Atrás</button>
+    <button mat-raised-button type="submit">Enviar</button>
+  </form>
+</div>
