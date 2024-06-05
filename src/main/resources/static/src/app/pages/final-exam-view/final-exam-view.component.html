@@ -7,8 +7,10 @@
     <p>{{ mensaje }}</p>
   </div>
   <div class="final-links">
-    <a (click)="navigateLanding()">Volver</a>
-    <a>Repetir</a>
-    <a>Siguiente</a>
+    <mat-card>
+      <button mat-button (click)="navigateLanding()">Volver</button>
+      <button mat-button (click)="repeatExam()">Repetir</button>
+      <button mat-button (click)="nextQuestion()">Siguiente</button>
+    </mat-card>
   </div>
 </div>
