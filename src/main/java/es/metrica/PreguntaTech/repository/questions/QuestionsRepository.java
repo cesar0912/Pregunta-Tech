@@ -1,4 +1,4 @@
-package es.metrica.PreguntaTech.repository.Questions;
+package es.metrica.PreguntaTech.repository.questions;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

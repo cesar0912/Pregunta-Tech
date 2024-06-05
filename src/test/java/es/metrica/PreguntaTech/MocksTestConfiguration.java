@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
-import es.metrica.PreguntaTech.repository.User.UserRepository;
+import es.metrica.PreguntaTech.repository.user.UserRepository;
 
 @Profile("test")
 @Configuration

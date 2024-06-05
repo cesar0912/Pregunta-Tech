@@ -15,7 +15,7 @@ import es.metrica.PreguntaTech.model.LoginResult;
 import es.metrica.PreguntaTech.model.User;
 import es.metrica.PreguntaTech.model.exceptions.InvalidQueryException;
 import es.metrica.PreguntaTech.model.exceptions.InvalidUrlException;
-import es.metrica.PreguntaTech.repository.User.UserRepository;
+import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.services.questions.QuestionsServices;
 import es.metrica.PreguntaTech.services.user.UserServices;
 

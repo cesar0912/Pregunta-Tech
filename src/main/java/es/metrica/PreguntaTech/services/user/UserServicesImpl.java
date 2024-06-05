@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import es.metrica.PreguntaTech.model.LoginResult;
 import es.metrica.PreguntaTech.model.User;
-import es.metrica.PreguntaTech.repository.User.UserRepository;
+import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.utils.hash.HashingUtil;
 
 @Service

@@ -1,4 +1,4 @@
-package es.metrica.PreguntaTech.repository.User;
+package es.metrica.PreguntaTech.repository.user;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
