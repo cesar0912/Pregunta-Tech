@@ -51,6 +51,6 @@ p {
 }
 p a {
     color: blue;
-    cursor: pointer; /* Añadido para que parezca un enlace */
-    text-decoration: underline; /* Añadido para que parezca un enlace */
+    cursor: pointer;
+    text-decoration: underline;
 }
