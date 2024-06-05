@@ -3,9 +3,12 @@ package es.metrica.PreguntaTech;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +21,8 @@ import es.metrica.PreguntaTech.model.exceptions.InvalidUrlException;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.services.questions.QuestionsServices;
 import es.metrica.PreguntaTech.services.user.UserServices;
+import es.metrica.PreguntaTech.utils.hash.HashingUtil;
+import es.metrica.PreguntaTech.utils.jwt.Jwt;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -36,6 +41,12 @@ class PreguntaTechApplicationTests {
 	@MockBean
 	private UserRepository userRepository;
 
+	@Autowired
+	HashingUtil hu;
+	@Autowired
+	HashingUtil hu2;
+	@Autowired
+	Jwt jwt;
 	// se comprueba si los repositorios y servicios se han creado correctamente
 	@Test
 	void context() {
@@ -96,5 +107,49 @@ class PreguntaTechApplicationTests {
 		
 
 	}
+	@Nested
+	class SecurityTests {
+
+		
+		@Test
+		void contextHashTest(){
+			assertNotNull(hu);
+			assertNotNull(hu2);
+		}
+		
+		@Test
+		void hashingTests() {
+			String originalPass = "1234";
+			String pass1 = hu.hash(originalPass);
+			String pass2 = hu2.hash("54321");
+			
+			Assertions.assertFalse(hu.verify(pass2, originalPass));
+			Assertions.assertFalse(hu2.verify(pass2, originalPass));
+			Assertions.assertTrue(hu2.verify(pass1, originalPass));
+			Assertions.assertTrue(hu.verify(pass1, originalPass));
+		}
+		
+
+		
+		
+		@Test
+		void jwtTest() {
+			
+			User user = new User();
+			HashMap<String, Object> hmap = new HashMap<>();
+			
+			long id = 2345L;
+			user.setName("RandomName");
+			user.setId(id);
+			user.setPassword("R4nd0mP4ssW0rd");
+			hmap.put("pass", user.getPassword());
+			
+			String token = jwt.generateToken(user, hmap);
+			
+			Assertions.assertEquals(jwt.getUser(token), id);
+			
+		}
+}
+
 
 }
