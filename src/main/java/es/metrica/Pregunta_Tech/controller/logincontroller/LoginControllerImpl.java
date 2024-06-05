@@ -1,12 +1,10 @@
 package es.metrica.Pregunta_Tech.controller.logincontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import es.metrica.Pregunta_Tech.model.LoginResult;
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.services.user.UserServices;
@@ -19,7 +17,6 @@ public class LoginControllerImpl implements LoginControllerInterface  {
 	private final UserServices serv;
 	
 	
-	@Autowired
 	public LoginControllerImpl(UserServices serv) {
 		super();
 		this.serv = serv;

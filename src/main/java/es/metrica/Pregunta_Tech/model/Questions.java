@@ -50,10 +50,10 @@ public class Questions {
 		super();
 		this.id = id;
 		this.category = category;
-		level = level;
-		question = question;
+		this.level = level;
+		this.question = question;
 		this.answers = answers;
-		correctAnswer = correctAnswer;
+		this.correctAnswer = correctAnswer;
 		feedback = feedBack;
 	}
 	public Long getId() {
@@ -72,13 +72,13 @@ public class Questions {
 		return level;
 	}
 	public void setLevel(String level) {
-		level = level;
+		this.level = level;
 	}
 	public String getQuestion() {
 		return question;
 	}
 	public void setQuestion(String question) {
-		question = question;
+		this.question = question;
 	}
 	public List<String> getAnswers() {
 		return answers;
@@ -90,7 +90,7 @@ public class Questions {
 		return correctAnswer;
 	}
 	public void setCorrectAnswer(String correctAnswer) {
-		correctAnswer = correctAnswer;
+		this.correctAnswer = correctAnswer;
 	}
 	public String getFeedBack() {
 		return feedback;

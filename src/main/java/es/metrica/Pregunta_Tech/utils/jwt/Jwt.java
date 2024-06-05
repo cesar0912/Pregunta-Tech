@@ -25,6 +25,7 @@ public class Jwt {
 	 * @param claims Map<String, Object> with a key-value containing the (at least) the password.
 	 * @return Token
 	 */
+	@SuppressWarnings("deprecation")
 	public String generateToken(User user, Map<String, Object> claims) {
 		Date issuedDate = new Date(System.currentTimeMillis());
 		Date expiration = new Date(issuedDate.getTime() + (EXPIRATION_HOURS *3600000));
@@ -44,6 +45,7 @@ public class Jwt {
 	 */
 	public long getUser(String jwt) {
 
+		@SuppressWarnings("deprecation")
 		String id = Jwts.parser()
 						.setSigningKey(KEY)
 						.parseClaimsJws(jwt)

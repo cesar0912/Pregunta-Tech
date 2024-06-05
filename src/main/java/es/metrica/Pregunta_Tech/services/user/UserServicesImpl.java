@@ -1,10 +1,7 @@
 package es.metrica.Pregunta_Tech.services.user;
 
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import es.metrica.Pregunta_Tech.model.LoginResult;
 import es.metrica.Pregunta_Tech.model.User;
 import es.metrica.Pregunta_Tech.repository.User.UserRepository;
@@ -16,7 +13,6 @@ public class UserServicesImpl implements UserServices {
 	private final UserRepository userRepository;
 	private final HashingUtil hashUtil;
 
-	@Autowired
 	public UserServicesImpl(UserRepository userRepository,HashingUtil hashUtil) {
 		super();
 		this.userRepository = userRepository;

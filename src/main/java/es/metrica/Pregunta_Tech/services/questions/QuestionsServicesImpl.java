@@ -3,7 +3,6 @@ package es.metrica.Pregunta_Tech.services.questions;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
@@ -11,13 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 import es.metrica.Pregunta_Tech.model.exceptions.InvalidQueryException;
 import es.metrica.Pregunta_Tech.model.exceptions.InvalidUrlException;
-import es.metrica.Pregunta_Tech.repository.Questions.QuestionsRepository;
 
 @Service
 public class QuestionsServicesImpl implements QuestionsServices {
 
-
-	@Autowired
 	public QuestionsServicesImpl() {
 		super();
 	}
