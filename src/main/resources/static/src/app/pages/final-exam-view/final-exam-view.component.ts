@@ -17,26 +17,28 @@ export class FinalExamViewComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private service: AnswersService
+    private answersService: AnswersService
   ) {}
 
   ngOnInit() {
     this.score = this.getScore();
-    this.totalQuestions = this.getQuestions();
+    this.totalQuestions = this.getAmount();
     this.porcentajeAciertos = this.calcularPorcentajeAciertos();
     this.mensaje = this.obtenerMensaje(this.porcentajeAciertos);
   }
-
+  repeatExam() {
+    this.answersService.resetExam();
+  }
   navigateLanding() {
     this.router.navigate(['landing']);
   }
 
   getScore(): number {
-    return this.service.getScore();
+    return this.answersService.getScore();
   }
 
-  getQuestions(): number {
-    return this.service.getQuestions();
+  getAmount(): number {
+    return this.answersService.getAmount();
   }
 
   calcularPorcentajeAciertos(): number {
