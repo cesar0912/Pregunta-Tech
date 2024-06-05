@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnswersService } from '../../services/answer.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-final-exam-view',
   templateUrl: './final-exam-view.component.html',
   styleUrls: ['./final-exam-view.component.css'],
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
 })
 export class FinalExamViewComponent implements OnInit {
   score: number = 0;
@@ -29,6 +30,7 @@ export class FinalExamViewComponent implements OnInit {
   repeatExam() {
     this.answersService.resetExam();
   }
+  nextQuestion() {}
   navigateLanding() {
     this.router.navigate(['landing']);
   }

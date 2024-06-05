@@ -23,14 +23,21 @@
   margin: 5px 0;
   text-align: center;
 }
-
 .final-links {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.final-links a {
+.final-links mat-card {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  box-shadow: none;
+  flex-direction: row;
+}
+
+.final-links button {
   background-color: #007bff;
   color: white;
   padding: 10px 15px;
@@ -38,8 +45,10 @@
   text-decoration: none;
   margin: 0 10px;
   transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
-.final-links a:hover {
+.final-links button:hover {
   background-color: #0056b3;
 }
