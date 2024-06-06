@@ -8,6 +8,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import PreguntaTech.utils.model.url.UrlResult;
 import es.metrica.PreguntaTech.model.exceptions.InvalidQueryException;
 import es.metrica.PreguntaTech.model.exceptions.InvalidUrlException;
 
@@ -19,10 +20,10 @@ public class QuestionsServicesImpl implements QuestionsServices {
 	}
 
 	@Override
-	public List<Object> getQuestionsFromApi(String url) {
+	public List<Object> getQuestionsFromApi(UrlResult url) {
 		try {
 			RestTemplate template=new RestTemplate();
-			Object[] questions = template.getForObject(url, Object[].class);
+			Object[] questions = template.getForObject(url.getUrl(), Object[].class);
 			return Arrays.asList(questions);
 		} catch (HttpClientErrorException e) {
 			throw new InvalidQueryException(e.getMessage());

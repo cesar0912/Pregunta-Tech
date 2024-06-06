@@ -39,11 +39,12 @@ export class TestComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private service: AnswersService
+    private answersService: AnswersService
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.questions = navigation?.extras?.state?.['questions'] || [];
-    service.setScore(0);
+    answersService.setQuestions(this.questions);
+    answersService.setScore(0);
     this.testForm = this.fb.group({
       answers: this.fb.array([]),
     });
@@ -62,7 +63,7 @@ export class TestComponent implements OnInit {
   loadQuestion(): void {
     const currentQuestion = this.questions[this.currentQuestionIndex];
     this.answers.clear();
-    this.service.setQuestions(this.questions.length);
+    this.answersService.setAmount(this.questions.length);
     for (const key in currentQuestion.answers) {
       this.answers.push(this.fb.control(false));
     }
@@ -91,7 +92,7 @@ export class TestComponent implements OnInit {
 
     if (allCorrect && allSelectedCorrect) {
       this.score++;
-      this.service.setScore(this.score);
+      this.answersService.setScore(this.score);
     }
 
     this.answersSelected = true;
@@ -109,7 +110,12 @@ export class TestComponent implements OnInit {
   }
 
   private examIsFinished(): void {
-    this.examFinished = true;
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.answersService.setExamFinished(true);
+  }
+  public getExamFinished(): boolean {
+    return this.answersService.getExamFinished();
   }
   getScore(): number {
     return this.score;
