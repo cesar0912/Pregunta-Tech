@@ -19,7 +19,7 @@ public class Exam {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToMany
     @JoinTable(
         name = "questions_exam",

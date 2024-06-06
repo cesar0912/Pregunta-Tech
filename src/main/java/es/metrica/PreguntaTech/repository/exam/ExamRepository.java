@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import es.metrica.PreguntaTech.model.Exam;
 
-
 @Repository
 public interface ExamRepository  extends JpaRepository<Exam, Long>{
 

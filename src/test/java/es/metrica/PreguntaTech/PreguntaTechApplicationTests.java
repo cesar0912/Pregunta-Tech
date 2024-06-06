@@ -2,7 +2,9 @@ package es.metrica.PreguntaTech;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import es.metrica.PreguntaTech.repository.questions.QuestionsRepository;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.services.exam.ExamServices;
 import es.metrica.PreguntaTech.services.category.CategoryServices;
+import es.metrica.PreguntaTech.services.exam.ExamServices;
 import es.metrica.PreguntaTech.services.questions.QuestionsServices;
 import es.metrica.PreguntaTech.services.user.UserServices;
 import es.metrica.PreguntaTech.utils.hash.HashingUtil;
@@ -49,6 +52,7 @@ class PreguntaTechApplicationTests {
 
 	@Autowired
 	private QuestionsServices questionServices;
+
 	@Autowired
 	private ExamServices examServices;
 
@@ -88,6 +92,7 @@ class PreguntaTechApplicationTests {
 
 		@Test
 		void testValidUserLogin() {
+
 			String passwordHashed = "$argon2id$v=19$m=1024,t=1,p=1$aiNA9JFgbgmVaB3LV2+EQg$aK76dTL9WU3V9/7RyR/EgkBhjr4Sg+GsNhaXsl19JQY";
 			Optional<User> user = Optional.of(new User(1L, "admin", passwordHashed, "", ""));
 			when(userRepository.getByEmail("admin")).thenReturn(user);
@@ -99,6 +104,29 @@ class PreguntaTechApplicationTests {
 
 			Assertions.assertEquals(us.getId(), jwt.getUser(testLogin.getToken()));
 			Assertions.assertNull(testLogin.getError());
+	}
+
+	@Test
+	void basicTestgetExamsByUser() {
+		List<Exam> exam = new ArrayList();
+		exam.add(new Exam());
+		exam.add(new Exam());
+		User user = new User("", "", "", "");
+		user.setExamUser(exam);
+		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+		List<Exam> res = examServices.getExamsUser("");
+		
+		
+		assertFalse(res.isEmpty());
+		when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
+		res = examServices.getExamsUser("");
+		assertNull(res);
+
+
+		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+		res=examServices.getExamsUser("");
+		assertTrue(res.isEmpty());
+
 		}
 
 		@Test
@@ -117,6 +145,7 @@ class PreguntaTechApplicationTests {
 
 			Optional<User> user = Optional.of(new User(1L, "admin", hu.hash("12345"), "", ""));
 			when(userRepository.getByEmail("admin")).thenReturn(user);
+
 
 			LoginResult testLogin = userServices.login(new User("admin", "nonono", "", ""));
 			Assertions.assertNull(testLogin.getToken());
@@ -161,6 +190,7 @@ class PreguntaTechApplicationTests {
 
 			User registeredUser = userServices.register(user);
 			Assertions.assertNull(registeredUser);
+
 		}
 	}
 
@@ -355,7 +385,6 @@ class PreguntaTechApplicationTests {
 			Map<String, Object> claims = new HashMap<>();
 			claims.put("pass", user.get().getPassword());
 			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
-
 		}
 	}
 
