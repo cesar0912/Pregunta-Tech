@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnswersService } from '../../services/answer.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-final-exam-view',
   templateUrl: './final-exam-view.component.html',
   styleUrls: ['./final-exam-view.component.css'],
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
 })
 export class FinalExamViewComponent implements OnInit {
   score: number = 0;
@@ -17,26 +18,29 @@ export class FinalExamViewComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private service: AnswersService
+    private answersService: AnswersService
   ) {}
 
   ngOnInit() {
     this.score = this.getScore();
-    this.totalQuestions = this.getQuestions();
+    this.totalQuestions = this.getAmount();
     this.porcentajeAciertos = this.calcularPorcentajeAciertos();
     this.mensaje = this.obtenerMensaje(this.porcentajeAciertos);
   }
-
+  repeatExam() {
+    this.answersService.resetExam();
+  }
+  nextQuestion() {}
   navigateLanding() {
     this.router.navigate(['landing']);
   }
 
   getScore(): number {
-    return this.service.getScore();
+    return this.answersService.getScore();
   }
 
-  getQuestions(): number {
-    return this.service.getQuestions();
+  getAmount(): number {
+    return this.answersService.getAmount();
   }
 
   calcularPorcentajeAciertos(): number {

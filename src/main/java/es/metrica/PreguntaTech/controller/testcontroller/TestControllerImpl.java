@@ -26,7 +26,7 @@ public class TestControllerImpl implements TestControllerInterface {
 	@Override
 	@PostMapping()
 	public List<Object> getTest(@RequestBody UrlResult url) {
-		return services.getQuestionsFromApi(url.getUrl());
+		return services.getQuestionsFromApi(url);
 	}
 
 }
