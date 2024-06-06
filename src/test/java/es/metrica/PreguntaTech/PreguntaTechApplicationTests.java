@@ -59,6 +59,7 @@ class PreguntaTechApplicationTests {
 
 	// aqui deberiamos de comprobar mas cosas del login y del register cuando
 	// tengamos la lógica implementada
+
 	@Nested
     class LoginTests {
 
@@ -91,12 +92,53 @@ class PreguntaTechApplicationTests {
             Assertions.assertNull(testLogin.getToken());
             Assertions.assertEquals("invalid password", testLogin.getError());
         }
+      
+	@Test
+	void basicTestLogin() {
+		String passwordHashed = "$argon2id$v=19$m=1024,t=1,p=1$aiNA9JFgbgmVaB3LV2+EQg$aK76dTL9WU3V9/7RyR/EgkBhjr4Sg+GsNhaXsl19JQY";
+		Optional<User> user = Optional.of(new User(1L, "admin", passwordHashed, "", ""));
+		when(userRepository.getByEmail("admin")).thenReturn(user);
+		
+		User us = new User("admin", "12345", "", "");
+		us.setId(1L);
+		LoginResult testLogin = userServices.login(us);
+		Jwt jwt = new Jwt();
+		
+		Assertions.assertEquals(us.getId(), jwt.getUser(testLogin.getToken()));
+		Assertions.assertNull(testLogin.getError());
+
+		testLogin = userServices.login(new User("nonono", "12345", "", ""));
+		Assertions.assertNull(testLogin.getToken());
+		Assertions.assertEquals("invalid user", testLogin.getError());
+
+		testLogin = userServices.login(new User("admin", "nonono", "", ""));
+		Assertions.assertNull(testLogin.getToken());
+		Assertions.assertEquals("invalid password", testLogin.getError());
+
+	}
+
+	
     }
 
 
 	@Nested
     class RegisterTests {
+      @Test
+        void basicTestRegister() {
+          User user = new User("user1", "user1", "user1", "user1");
+          when(userRepository.getByEmail("user1")).thenReturn(Optional.empty());
 
+          when(userRepository.save(user)).thenReturn(user);
+
+          User testLogin = userServices.register(user);
+          Assertions.assertNotNull(testLogin);
+          user = new User("", "", "", "");
+          when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
+          when(userRepository.save(user)).thenReturn(user);
+          testLogin = userServices.register(user);
+          Assertions.assertNull(testLogin);
+
+        }
         @Test
         void testValidUserRegister() {
             User user = new User("user1", "user1", "user1", "user1");
@@ -117,7 +159,8 @@ class PreguntaTechApplicationTests {
             Assertions.assertNull(registeredUser);
         }
     }
-
+  @Nested
+class QuestionTest{
 	@Test
 	void basicTestQuestions() {
 		String url = "https://www.preguntapi.dev/api/categories/javascript?level=facil&limit=5";
@@ -132,12 +175,16 @@ class PreguntaTechApplicationTests {
 		
 
 	}
+}
+  @Nested
+  class CategoryTest{
 	@Test
 	void basicTestCategory() {
 		
 	assertNotNull(categoryServices.getCategories());
 	assertFalse(categoryServices.getCategories().getCategories().isEmpty());
 	}
+  }
 	@Nested
 	class SecurityTests {
 
