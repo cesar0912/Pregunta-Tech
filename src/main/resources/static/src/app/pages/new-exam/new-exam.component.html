@@ -1,6 +1,6 @@
 <app-header></app-header>
-<div class="form-container">
-  <form [formGroup]="examForm" (ngSubmit)="agregarPregunta()">
+<div class="form-container" *ngIf="!firstInfoChecked">
+  <form [formGroup]="examForm" (ngSubmit)="saveCategoryLevel()">
     <mat-form-field appearance="fill">
       <mat-label>Categoría</mat-label>
       <input matInput formControlName="category" placeholder="Ingrese la categoría" required>
@@ -11,17 +11,28 @@
       <input matInput formControlName="level" placeholder="Ingrese el nivel" required>
     </mat-form-field>
 
+    <button mat-raised-button type="submit">Guardar</button>
+  </form>
+</div>
+
+<div class="form-container" *ngIf="firstInfoChecked">
+  <form [formGroup]="questionForm" (ngSubmit)="agregarPregunta()">
     <mat-form-field appearance="fill">
       <mat-label>Pregunta</mat-label>
       <textarea matInput formControlName="question" placeholder="Ingrese la pregunta" required></textarea>
     </mat-form-field>
 
-  <div *ngFor="let answer of preguntaActual.answers | keyvalue">
-    <mat-form-field appearance="fill">
-      <mat-label>{{ answer.key }}</mat-label>
-      <input matInput [formControlName]="answer.key" placeholder="Ingrese la respuesta" required>
-    </mat-form-field>
-  </div>
+    <div *ngFor="let i of respuestaArray; let idx = index">
+      <mat-form-field appearance="fill">
+        <mat-label>Respuesta {{i + 1}}</mat-label>
+        <input matInput [formControlName]="'answer_' + i" placeholder="Ingrese la respuesta {{i + 1}}">
+      </mat-form-field>
+    </div>
+
+    <div class="button-container">
+      <button mat-raised-button type="button" (click)="addRespuesta()">+</button>
+      <button mat-raised-button type="button" (click)="removeRespuesta()">-</button>
+    </div>
 
     <mat-form-field appearance="fill">
       <mat-label>Respuesta correcta</mat-label>
@@ -34,6 +45,7 @@
     </mat-form-field>
 
     <button mat-raised-button type="button" (click)="editarPreguntaAnterior()">Atrás</button>
-    <button mat-raised-button type="submit">Enviar</button>
+    <button mat-raised-button type="submit">Guardar Pregunta</button>
   </form>
+  <button mat-raised-button type="button" (click)="enviar()">Enviar Todo</button>
 </div>
