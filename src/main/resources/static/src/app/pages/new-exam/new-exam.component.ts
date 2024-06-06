@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { Question } from '../../Models/Question';
 import { HeaderComponent } from '../header/header.component';
 
@@ -24,6 +25,7 @@ import { HeaderComponent } from '../header/header.component';
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatSelectModule,
     HeaderComponent,
   ],
   templateUrl: './new-exam.component.html',
@@ -65,8 +67,8 @@ export class NewExamComponent {
   }
 
   saveCategoryLevel() {
-    this.categoryInput = this.examForm.value.category;
-    this.levelInput = this.examForm.value.level;
+    this.categoryInput = this.examForm.value.category.toLowerCase();
+    this.levelInput = this.examForm.value.level.toLowerCase();
     this.firstInfoChecked = true;
   }
 
@@ -74,11 +76,13 @@ export class NewExamComponent {
     const formValues = this.questionForm.value;
     const answers: { [key: string]: string } = {};
     this.respuestaArray.forEach((i) => {
-      const key = `answer_${i}`;
-      if (formValues[key]) {
-        answers[key] = formValues[key];
+      const key = `answer_${String.fromCharCode(97 + i)}`;
+      if (formValues[`answer_${i}`]) {
+        answers[key] = formValues[`answer_${i}`];
       }
     });
+
+    const correctAnswerKey = formValues.correct_answer;
 
     this.preguntaActual = {
       id: this.generateRandomId(),
@@ -86,7 +90,7 @@ export class NewExamComponent {
       level: this.levelInput,
       question: formValues.question,
       answers: answers,
-      correct_answer: formValues.correct_answer,
+      correct_answer: correctAnswerKey,
       feedback: formValues.feedback,
     };
 
@@ -132,7 +136,36 @@ export class NewExamComponent {
 
   editarPreguntaAnterior() {}
 
+  transformQuestions() {
+    return this.preguntas.map((pregunta) => {
+      const transformedAnswers: { [key: string]: string } = {};
+      Object.keys(pregunta.answers).forEach((key) => {
+        transformedAnswers[key] = pregunta.answers[key];
+      });
+
+      return {
+        id: pregunta.id,
+        category: pregunta.category,
+        level: pregunta.level,
+        question: pregunta.question,
+        answers: transformedAnswers,
+        correct_answer: this.transformCorrectAnswer(pregunta.correct_answer),
+        feedback: pregunta.feedback,
+      };
+    });
+  }
+
+  private transformCorrectAnswer(correctAnswer: string): string {
+    return correctAnswer
+      .split('_')
+      .map((part, index) =>
+        index === 1 ? String.fromCharCode(96 + parseInt(part, 10)) : part
+      )
+      .join('_');
+  }
+
   enviar() {
-    console.log(this.preguntas);
+    const transformedPreguntas = this.transformQuestions();
+    console.log(transformedPreguntas);
   }
 }
