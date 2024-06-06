@@ -19,6 +19,7 @@ import { HeaderComponent } from '../header/header.component';
 import { LoginService } from '../../services/login.service';
 import { User } from '../../Models/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private readonly router: Router,
     private readonly loginService: LoginService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -66,10 +68,21 @@ export class LoginComponent implements OnInit {
       this.loginService.sendRegister(user).subscribe({
         next: (response) => {
           console.log('Login exitoso:', response);
-          this.snackBar.open('Login exitoso', 'Cerrar', {
-            duration: 3000,
-          });
-          this.updateLanding();
+          if (this.checkResponse(response)) {
+            this.snackBar.open('Login exitoso', 'Cerrar', {
+              duration: 3000,
+            });
+            this.updateLanding(response.token);
+          } else {
+            console.error('Error en el Login:', response.error || 'Token nulo');
+            this.snackBar.open(
+              'Error en el Login: ' + (response.error || 'Token nulo'),
+              'Cerrar',
+              {
+                duration: 3000,
+              }
+            );
+          }
         },
         error: (error) => {
           console.error('Error en el Login:', error);
@@ -83,16 +96,26 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  updateLanding() {
+  private updateLanding(token: string) {
+    this.authService.setToken(token);
     this.navigateLanding();
+  }
+
+  private checkResponse(response: { token: string; error?: string }): boolean {
+    if (!response.token || response.error) {
+      return false;
+    }
+    return true;
   }
 
   public navigateRegister(): void {
     this.router.navigate(['register']);
   }
+
   public navigateResetPassword(): void {
     this.router.navigate(['reset-password']);
   }
+
   public navigateLanding(): void {
     this.router.navigate(['landing']);
   }

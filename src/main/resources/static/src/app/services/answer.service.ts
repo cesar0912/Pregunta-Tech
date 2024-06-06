@@ -2,6 +2,7 @@ import { Question } from 'src/app/Models/Question';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,6 +12,7 @@ export class AnswersService {
   private amount: number = 0;
   private examFinished: boolean = false;
   constructor(private router: Router) {}
+
 
   setScore(score: number): void {
     this.score = score;
@@ -30,6 +32,7 @@ export class AnswersService {
   getQuestions(): Question[] {
     return this.questions;
   }
+
   getScore(): number {
     return this.score;
   }
