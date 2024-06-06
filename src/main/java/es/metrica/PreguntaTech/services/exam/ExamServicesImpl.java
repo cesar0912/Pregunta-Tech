@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 import es.metrica.PreguntaTech.model.Exam;
 import es.metrica.PreguntaTech.model.User;
 import es.metrica.PreguntaTech.repository.exam.ExamRepository;
@@ -32,7 +35,10 @@ public class ExamServicesImpl implements ExamServices {
 	@Override
     @Transactional
 	public Exam saveExam(Exam exam, String token) {
-		Optional<User> userOpt=userRepository.findById(1L);
+
+
+		Optional<User> userOpt=userRepository.findById(jwt.getUser(token));
+
 		if(userOpt.isPresent()) {
 			User user=userOpt.get();
 			List<Exam> examsUser=new ArrayList();
@@ -66,3 +72,4 @@ public class ExamServicesImpl implements ExamServices {
 
 }
 	
+

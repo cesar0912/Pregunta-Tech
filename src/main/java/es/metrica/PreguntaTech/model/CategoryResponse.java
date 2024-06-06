@@ -33,7 +33,7 @@ public class CategoryResponse {
         this.totalQuestions = totalQuestions;
     }
 
-	protected CategoryResponse(List<Category> categories, int totalCategories, int totalQuestions) {
+	public CategoryResponse(List<Category> categories, int totalCategories, int totalQuestions) {
 		super();
 		this.categories = categories;
 		this.totalCategories = totalCategories;

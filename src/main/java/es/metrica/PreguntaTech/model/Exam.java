@@ -19,6 +19,7 @@ public class Exam {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@ManyToMany
     @JoinTable(
         name = "questions_exam",
@@ -29,6 +30,8 @@ public class Exam {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "examUser")
     private List<User> users;
+	
+	
 	public List<Questions> getQuestions() {
 		return questions;
 	}
