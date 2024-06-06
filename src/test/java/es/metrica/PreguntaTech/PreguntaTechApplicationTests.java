@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -146,7 +147,7 @@ class PreguntaTechApplicationTests {
 
 	@Test
 	void basicTestSaveExam() {
-		Optional<User> user = Optional.of(new User(1L, "user1", "", "", ""));
+		Optional<User> user = Optional.of(new User(1L, "user1", "1234", "", ""));
 		List<Questions> questions = new ArrayList();
 		questions.add(new Questions("java", "facil",
 				"¿Qué sentencia puede tomar una sola expresión como entrada y luego buscar a través de un número de opciones hasta que se encuentre una que coincida con ese valor?",
@@ -159,8 +160,9 @@ class PreguntaTechApplicationTests {
 		when(questionRepository.saveAll(exam.getQuestions())).thenReturn(questions);
 		when(examRepository.save(exam)).thenReturn(new Exam(1L, questions, null));
 		when(userRepository.save(user.get())).thenReturn(user.get());
-
-		assertNotNull(examServices.saveExam(exam, ""));
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("pass", user.get().getPassword());
+		assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 
 	}
 
