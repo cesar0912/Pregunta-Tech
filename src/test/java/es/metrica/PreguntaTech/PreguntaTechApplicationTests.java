@@ -18,6 +18,7 @@ import es.metrica.PreguntaTech.model.exceptions.InvalidUrlException;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.services.questions.QuestionsServices;
 import es.metrica.PreguntaTech.services.user.UserServices;
+import es.metrica.PreguntaTech.utils.jwt.Jwt;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -51,9 +52,13 @@ class PreguntaTechApplicationTests {
 		String passwordHashed = "$argon2id$v=19$m=1024,t=1,p=1$aiNA9JFgbgmVaB3LV2+EQg$aK76dTL9WU3V9/7RyR/EgkBhjr4Sg+GsNhaXsl19JQY";
 		Optional<User> user = Optional.of(new User(1L, "admin", passwordHashed, "", ""));
 		when(userRepository.getByEmail("admin")).thenReturn(user);
-
-		LoginResult testLogin = userServices.login(new User("admin", "12345", "", ""));
-		Assertions.assertEquals("valid user", testLogin.getToken());
+		
+		User us = new User("admin", "12345", "", "");
+		us.setId(1L);
+		LoginResult testLogin = userServices.login(us);
+		Jwt jwt = new Jwt();
+		
+		Assertions.assertEquals(us.getId(), jwt.getUser(testLogin.getToken()));
 		Assertions.assertNull(testLogin.getError());
 
 		testLogin = userServices.login(new User("nonono", "12345", "", ""));
