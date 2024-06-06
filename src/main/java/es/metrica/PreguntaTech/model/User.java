@@ -45,7 +45,15 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<Exam> examUser;
-    // Getters and setters (optional, but recommended for encapsulation)
+    public List<Exam> getExamUser() {
+		return examUser;
+	}
+
+	public void setExamUser(List<Exam> examUser) {
+		this.examUser = examUser;
+	}
+
+	// Getters and setters (optional, but recommended for encapsulation)
     public Long getId() {
         return id;
     }
