@@ -37,7 +37,6 @@ import es.metrica.PreguntaTech.repository.questions.QuestionsRepository;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.services.exam.ExamServices;
 import es.metrica.PreguntaTech.services.category.CategoryServices;
-import es.metrica.PreguntaTech.services.exam.ExamServices;
 import es.metrica.PreguntaTech.services.questions.QuestionsServices;
 import es.metrica.PreguntaTech.services.user.UserServices;
 import es.metrica.PreguntaTech.utils.hash.HashingUtil;
@@ -108,7 +107,7 @@ class PreguntaTechApplicationTests {
 
 	@Test
 	void basicTestgetExamsByUser() {
-		List<Exam> exam = new ArrayList();
+		List<Exam> exam = new ArrayList<>();
 		exam.add(new Exam());
 		exam.add(new Exam());
 		User user = new User("", "", "", "");
