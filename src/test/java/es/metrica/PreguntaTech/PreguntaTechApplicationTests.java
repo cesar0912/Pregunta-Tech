@@ -42,8 +42,6 @@ class PreguntaTechApplicationTests {
 
 	@Autowired
 	private UserServices userServices;
-	@Autowired
-	private HashingUtil hasher;
 
 	@Autowired
 	private QuestionsServices questionServices;
@@ -67,13 +65,6 @@ class PreguntaTechApplicationTests {
 	@Autowired
 	Jwt jwt;
 
-	@Autowired
-	HashingUtil hu;
-	@Autowired
-	HashingUtil hu2;
-	@Autowired
-	Jwt jwt;
-
 	@Test
 	void context() {
 		assertNotNull(userServices);
@@ -85,7 +76,6 @@ class PreguntaTechApplicationTests {
 		assertNotNull(hu);
 		assertNotNull(hu2);
 	}
-
 
 	// login and register tests should be added when logic is being implemented
 
@@ -235,65 +225,29 @@ class PreguntaTechApplicationTests {
 			hmap.put("pass", user.getPassword());
 
 			String token = jwt.generateToken(user, hmap);
-      Assertions.assertEquals(jwt.getUser(token), id);
-    }
-
-	@Test
-	void basicTestSaveExam() {
-		Optional<User> user = Optional.of(new User(1L, "user1", "1234", "", ""));
-		List<Questions> questions = new ArrayList();
-		questions.add(new Questions("java", "facil",
-				"¿Qué sentencia puede tomar una sola expresión como entrada y luego buscar a través de un número de opciones hasta que se encuentre una que coincida con ese valor?",
-				new ArrayList<String>(), "c", "switch"));
-
-		Exam exam = new Exam();
-		exam.setQuestions(questions);
-
-		when(userRepository.findById(1L)).thenReturn(user);
-		when(questionRepository.saveAll(exam.getQuestions())).thenReturn(questions);
-		when(examRepository.save(exam)).thenReturn(new Exam(1L, questions, null));
-		when(userRepository.save(user.get())).thenReturn(user.get());
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("pass", user.get().getPassword());
-		assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
-
-
-    }
-	}
-
-	@Nested
-	class SecurityTest{
-
-		@Test
-		void hashingTests() {
-			String originalPass = "1234";
-			String pass1 = hu.hash(originalPass);
-			String pass2 = hu2.hash("54321");
-
-			Assertions.assertFalse(hu.verify(pass2, originalPass));
-			Assertions.assertFalse(hu2.verify(pass2, originalPass));
-			Assertions.assertTrue(hu2.verify(pass1, originalPass));
-			Assertions.assertTrue(hu.verify(pass1, originalPass));
-		}
-
-		@Test
-		void jwtTest() {
-
-			User user = new User();
-			HashMap<String, Object> hmap = new HashMap<>();
-
-			long id = 2345L;
-			user.setName("RandomName");
-			user.setId(id);
-			user.setPassword("R4nd0mP4ssW0rd");
-			hmap.put("pass", user.getPassword());
-
-			String token = jwt.generateToken(user, hmap);
-
 			Assertions.assertEquals(jwt.getUser(token), id);
+		}
+
+		@Test
+		void basicTestSaveExam() {
+			Optional<User> user = Optional.of(new User(1L, "user1", "1234", "", ""));
+			List<Questions> questions = new ArrayList<>();
+			questions.add(new Questions("java", "facil",
+					"¿Qué sentencia puede tomar una sola expresión como entrada y luego buscar a través de un número de opciones hasta que se encuentre una que coincida con ese valor?",
+					new ArrayList<String>(), "c", "switch"));
+
+			Exam exam = new Exam();
+			exam.setQuestions(questions);
+
+			when(userRepository.findById(1L)).thenReturn(user);
+			when(questionRepository.saveAll(exam.getQuestions())).thenReturn(questions);
+			when(examRepository.save(exam)).thenReturn(new Exam(1L, questions, null));
+			when(userRepository.save(user.get())).thenReturn(user.get());
+			Map<String, Object> claims = new HashMap<>();
+			claims.put("pass", user.get().getPassword());
+			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 
 		}
 	}
+
 }
-
-
