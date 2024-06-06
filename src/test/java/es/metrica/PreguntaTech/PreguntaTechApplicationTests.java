@@ -105,28 +105,7 @@ class PreguntaTechApplicationTests {
 			Assertions.assertNull(testLogin.getError());
 	}
 
-	@Test
-	void basicTestgetExamsByUser() {
-		List<Exam> exam = new ArrayList<>();
-		exam.add(new Exam());
-		exam.add(new Exam());
-		User user = new User("", "", "", "");
-		user.setExamUser(exam);
-		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-		List<Exam> res = examServices.getExamsUser("");
-		
-		
-		assertFalse(res.isEmpty());
-		when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
-		res = examServices.getExamsUser("");
-		assertNull(res);
-
-
-		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
-		res=examServices.getExamsUser("");
-		assertTrue(res.isEmpty());
-
-		}
+	
 
 		@Test
 		void testInvalidUserLogin() {
@@ -334,6 +313,44 @@ class PreguntaTechApplicationTests {
 			exam.setQuestions(List.of(new Questions()));
 			Assertions.assertEquals(exam.getQuestions().size(), 1);
 		}
+		
+		@Test
+		void basicTestgetExamsByUser() {
+			List<Exam> exam = new ArrayList<>();
+			exam.add(new Exam());
+			exam.add(new Exam());
+			User user = new User("", "", "", "");
+			user.setExamUser(exam);
+			when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+			List<Exam> res = examServices.getExamsUser("");
+			
+			
+			assertFalse(res.isEmpty());
+			when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
+			res = examServices.getExamsUser("");
+			assertNull(res);
+
+
+			when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+			res=examServices.getExamsUser("");
+			assertTrue(res.isEmpty());
+
+			}
+		
+		@Test
+		void basicTestgetExams() {
+			List<Exam> exam = new ArrayList<>();
+			exam.add(new Exam());
+			exam.add(new Exam());
+		
+			when(examRepository.findAll()).thenReturn(exam);
+			List<Exam> res = examServices.getExams();
+			
+			
+			assertFalse(res.isEmpty());
+		
+
+			}
 	}
 
 	@Nested

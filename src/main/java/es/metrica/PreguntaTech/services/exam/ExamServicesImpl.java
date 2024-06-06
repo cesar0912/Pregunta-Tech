@@ -69,6 +69,11 @@ public class ExamServicesImpl implements ExamServices {
 		return new ArrayList();
 	}
 
+	@Override
+	public List<Exam> getExams() {
+		return examRepository.findAll();
+	}
+
 }
 	
 
