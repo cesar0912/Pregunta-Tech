@@ -15,7 +15,6 @@ import es.metrica.PreguntaTech.repository.exam.ExamRepository;
 import es.metrica.PreguntaTech.repository.questions.QuestionsRepository;
 import es.metrica.PreguntaTech.repository.user.UserRepository;
 import es.metrica.PreguntaTech.utils.jwt.Jwt;
-import jakarta.transaction.Transactional;
 
 @Service
 public class ExamServicesImpl implements ExamServices {

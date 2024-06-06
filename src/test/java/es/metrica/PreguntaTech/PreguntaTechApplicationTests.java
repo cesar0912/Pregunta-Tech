@@ -357,8 +357,8 @@ class PreguntaTechApplicationTests {
 			User usercopiar = new User(user.getEmail(), user.getPassword());
 			Assertions.assertEquals(user,usercopiar);
 			Assertions.assertEquals(user,user);
-			Assertions.assertEquals(user,null);
-			Assertions.assertEquals(user,new Exam());
+			Assertions.assertNotEquals(user,null);
+			Assertions.assertNotEquals(user,new Exam());
 			Assertions.assertEquals(user.getClass(), User.class);
 			user.setEmail("yo2@gmail.com");
 			user.setSurname("nuevo");
