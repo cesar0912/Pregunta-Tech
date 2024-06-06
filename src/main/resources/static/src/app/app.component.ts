@@ -8,6 +8,7 @@ import { LoginService } from './services/login.service';
 import { AnswersService } from './services/answer.service';
 import { AuthService } from './services/auth-service.service';
 import { AuthInterceptor } from './Interceptors/AuthInterceptor';
+import { ExamService } from './services/exam.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ import { AuthInterceptor } from './Interceptors/AuthInterceptor';
     LoginService,
     AnswersService,
     AuthService,
+    ExamService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   templateUrl: './app.component.html',
