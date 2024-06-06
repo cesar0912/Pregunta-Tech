@@ -1,10 +1,15 @@
 package es.metrica.PreguntaTech.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -14,8 +19,14 @@ public class Exam {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToMany(mappedBy = "examQuestion")
+	@ManyToMany
+    @JoinTable(
+        name = "questions_exam",
+        joinColumns = @JoinColumn(name = "question_id"),
+        inverseJoinColumns = @JoinColumn(name = "exam_id")
+    )
     private List<Questions> questions;
+	@JsonIgnore
 	@ManyToMany(mappedBy = "examUser")
     private List<User> users;
 	public List<Questions> getQuestions() {
