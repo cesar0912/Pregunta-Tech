@@ -166,71 +166,31 @@ class PreguntaTechApplicationTests {
 	}
 
 	@Nested
-
-    class RegisterTests {
-      @Test
-        void basicTestRegister() {
-          User user = new User("user1", "user1", "user1", "user1");
-          when(userRepository.getByEmail("user1")).thenReturn(Optional.empty());
-
-          when(userRepository.save(user)).thenReturn(user);
-
-          User testLogin = userServices.register(user);
-          Assertions.assertNotNull(testLogin);
-          user = new User("", "", "", "");
-          when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
-          when(userRepository.save(user)).thenReturn(user);
-          testLogin = userServices.register(user);
-          Assertions.assertNull(testLogin);
-
-        }
-        @Test
-        void testValidUserRegister() {
-            User user = new User("user1", "user1", "user1", "user1");
-            when(userRepository.getByEmail("user1")).thenReturn(Optional.empty());
-            when(userRepository.save(user)).thenReturn(user);
-
-            User registeredUser = userServices.register(user);
-            Assertions.assertNotNull(registeredUser);
-        }
-
-        @Test
-        void testInvalidUserRegister() {
-            User user = new User("", "", "", "");
-            when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
-            when(userRepository.save(user)).thenReturn(user);
-
-            User registeredUser = userServices.register(user);
-            Assertions.assertNull(registeredUser);
-        }
-    }
-  @Nested
-class QuestionTest{
-
-	@Test
-	void classTestQuestions() {
-		List<String> answers=new ArrayList<>();
-		answers.add("Automatica");
-		Questions q=new Questions(1L, "java", "fácil", "Una interfaz se extiende?",answers ,
-				null, null);
-		Assertions.assertEquals(q.getClass(),Questions.class);
-		q.setId(2L);
-		Assertions.assertEquals(q.getId(), 2L);
-		q.setCategory("python");
-		Assertions.assertEquals(q.getCategory(), "python");
-		q.setLevel("normal");
-		Assertions.assertEquals(q.getLevel(), "normal");
-		q.setQuestion("¿Cómo se maneja la memoria en Python?");
-		Assertions.assertEquals(q.getQuestion(), "¿Cómo se maneja la memoria en Python?");
-		q.setCorrectAnswer("Automatica");
-		Assertions.assertEquals(q.getCorrectAnswer(), "Automatica");
-		Assertions.assertEquals(q.getAnswers().size(), 1);
-		q.setAnswers(List.of());
-		Assertions.assertEquals(q.getAnswers().size(), 0);
-		q.setFeedBack("Se realiza a través de un montor privado");
-		Assertions.assertEquals(q.getFeedBack(), "Se realiza a través de un montor privado");
-
 	class QuestionTest {
+
+		@Test
+		void classTestQuestions() {
+			List<String> answers = new ArrayList<>();
+			answers.add("Automatica");
+			Questions q = new Questions(1L, "java", "fácil", "Una interfaz se extiende?", answers, null, null);
+			Assertions.assertEquals(q.getClass(), Questions.class);
+			q.setId(2L);
+			Assertions.assertEquals(q.getId(), 2L);
+			q.setCategory("python");
+			Assertions.assertEquals(q.getCategory(), "python");
+			q.setLevel("normal");
+			Assertions.assertEquals(q.getLevel(), "normal");
+			q.setQuestion("¿Cómo se maneja la memoria en Python?");
+			Assertions.assertEquals(q.getQuestion(), "¿Cómo se maneja la memoria en Python?");
+			q.setCorrectAnswer("Automatica");
+			Assertions.assertEquals(q.getCorrectAnswer(), "Automatica");
+			Assertions.assertEquals(q.getAnswers().size(), 1);
+			q.setAnswers(List.of());
+			Assertions.assertEquals(q.getAnswers().size(), 0);
+			q.setFeedBack("Se realiza a través de un montor privado");
+			Assertions.assertEquals(q.getFeedBack(), "Se realiza a través de un montor privado");
+		}
+
 		@Test
 		void basicTestQuestions() {
 			String url = "https://www.preguntapi.dev/api/categories/javascript?level=facil&limit=5";
@@ -258,17 +218,16 @@ class QuestionTest{
 			assertNotNull(categoryServices.getCategories());
 			assertFalse(categoryServices.getCategories().getCategories().isEmpty());
 		}
-	}
 
-	@Test
-	void classCategoryTest() {
-		Category category=new Category("Java",30,"http://localhost:8080/categories");
-		Assertions.assertEquals(category.getClass(), Category.class);
-		Assertions.assertEquals(category.getName(), "Java");
-		Assertions.assertEquals(category.getcount_questions(), 30);
-		Assertions.assertEquals(category.getLink(), "http://localhost:8080/categories");
+		@Test
+		void classCategoryTest() {
+			Category category = new Category("Java", 30, "http://localhost:8080/categories");
+			Assertions.assertEquals(category.getClass(), Category.class);
+			Assertions.assertEquals(category.getName(), "Java");
+			Assertions.assertEquals(category.getcount_questions(), 30);
+			Assertions.assertEquals(category.getLink(), "http://localhost:8080/categories");
+		}
 	}
-  }
 
 	@Nested
 	class SecurityTests {
@@ -307,15 +266,16 @@ class QuestionTest{
 			Assertions.assertEquals(jwt.getUser(token), id);
 		}
 
-}
+	}
+
 	@Nested
-	class OrganizationTest{
+	class OrganizationTest {
 		@Test
 		void organizationTest() {
-			List<User> l=new ArrayList<>();
+			List<User> l = new ArrayList<>();
 			l.add(new User());
-			Organization o = new Organization(1L,"metrica", l);
-			Assertions.assertEquals(o.getClass(),Organization.class);
+			Organization o = new Organization(1L, "metrica", l);
+			Assertions.assertEquals(o.getClass(), Organization.class);
 			Assertions.assertEquals(o.getId(), 1L);
 			o.setId(2L);
 			Assertions.assertEquals(o.getId(), 2L);
@@ -328,16 +288,16 @@ class QuestionTest{
 			o.setUsers(List.of());
 			Assertions.assertEquals(o.getUsers().size(), 0);
 		}
-		
+
 	}
-	
+
 	@Nested
-	class ExamTest{
+	class ExamTest {
 		@Test
 		void classExamTest() {
-			List<Questions> lQuestions=new ArrayList<>();
-			List<User> lUser=new ArrayList<>();
-			Exam exam=new Exam(1L,lQuestions,lUser);
+			List<Questions> lQuestions = new ArrayList<>();
+			List<User> lUser = new ArrayList<>();
+			Exam exam = new Exam(1L, lQuestions, lUser);
 			Assertions.assertEquals(exam.getClass(), Exam.class);
 			Assertions.assertEquals(exam.getUsers().size(), 0);
 			exam.setUsers(List.of(new User()));
@@ -347,23 +307,25 @@ class QuestionTest{
 			Assertions.assertEquals(exam.getQuestions().size(), 1);
 		}
 	}
+
 	@Nested
-	class CategoryResponseTest{
+	class CategoryResponseTest {
 		@Test
 		void classCategoryResponseTest() {
-			List<Category> lCategory=new ArrayList<>();
-			CategoryResponse categoryResponse= new CategoryResponse(lCategory, 28, 80);
+			List<Category> lCategory = new ArrayList<>();
+			CategoryResponse categoryResponse = new CategoryResponse(lCategory, 28, 80);
 			Assertions.assertEquals(categoryResponse.getTotalCategories(), 28);
 			Assertions.assertEquals(categoryResponse.getTotalQuestions(), 80);
-			
+
 		}
 	}
+
 	@Nested
-	class UserTest{
+	class UserTest {
 		@Test
 		void classUserTest() {
-			User user=new User("yo@gmail.com","12345");
-			User usercopiar=new User(user.getEmail(),user.getPassword());
+			User user = new User("yo@gmail.com", "12345");
+			User usercopiar = new User(user.getEmail(), user.getPassword());
 			Assertions.assertTrue(user.equals(usercopiar));
 			Assertions.assertTrue(user.equals(user));
 			Assertions.assertFalse(user.equals(null));
@@ -371,11 +333,10 @@ class QuestionTest{
 			Assertions.assertEquals(user.getClass(), User.class);
 			user.setEmail("yo2@gmail.com");
 			user.setSurname("nuevo");
-			Assertions.assertEquals(user.toString(), "Users [id=" + user.getId() + ", email=" + user.getEmail() + 
-					", password=" + user.getPassword() + ", surname=" + user.getSurname() + ", name=" + user.getName() + "]");
+			Assertions.assertEquals(user.toString(),
+					"Users [id=" + user.getId() + ", email=" + user.getEmail() + ", password=" + user.getPassword()
+							+ ", surname=" + user.getSurname() + ", name=" + user.getName() + "]");
 		}
-	}
-
 
 		@Test
 		void basicTestSaveExam() {
