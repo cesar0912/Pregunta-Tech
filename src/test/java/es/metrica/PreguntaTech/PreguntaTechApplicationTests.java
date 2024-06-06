@@ -21,7 +21,12 @@ import org.springframework.test.context.ActiveProfiles;
 
 import es.metrica.PreguntaTech.model.Exam;
 import PreguntaTech.utils.model.url.UrlResult;
+import es.metrica.PreguntaTech.model.Category;
+import es.metrica.PreguntaTech.model.CategoryResponse;
+import es.metrica.PreguntaTech.model.Exam;
 import es.metrica.PreguntaTech.model.LoginResult;
+import es.metrica.PreguntaTech.model.Organization;
+
 import es.metrica.PreguntaTech.model.Questions;
 import es.metrica.PreguntaTech.model.User;
 import es.metrica.PreguntaTech.model.exceptions.InvalidQueryException;
@@ -161,6 +166,70 @@ class PreguntaTechApplicationTests {
 	}
 
 	@Nested
+
+    class RegisterTests {
+      @Test
+        void basicTestRegister() {
+          User user = new User("user1", "user1", "user1", "user1");
+          when(userRepository.getByEmail("user1")).thenReturn(Optional.empty());
+
+          when(userRepository.save(user)).thenReturn(user);
+
+          User testLogin = userServices.register(user);
+          Assertions.assertNotNull(testLogin);
+          user = new User("", "", "", "");
+          when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
+          when(userRepository.save(user)).thenReturn(user);
+          testLogin = userServices.register(user);
+          Assertions.assertNull(testLogin);
+
+        }
+        @Test
+        void testValidUserRegister() {
+            User user = new User("user1", "user1", "user1", "user1");
+            when(userRepository.getByEmail("user1")).thenReturn(Optional.empty());
+            when(userRepository.save(user)).thenReturn(user);
+
+            User registeredUser = userServices.register(user);
+            Assertions.assertNotNull(registeredUser);
+        }
+
+        @Test
+        void testInvalidUserRegister() {
+            User user = new User("", "", "", "");
+            when(userRepository.getByEmail("")).thenReturn(Optional.of(new User()));
+            when(userRepository.save(user)).thenReturn(user);
+
+            User registeredUser = userServices.register(user);
+            Assertions.assertNull(registeredUser);
+        }
+    }
+  @Nested
+class QuestionTest{
+
+	@Test
+	void classTestQuestions() {
+		List<String> answers=new ArrayList<>();
+		answers.add("Automatica");
+		Questions q=new Questions(1L, "java", "fácil", "Una interfaz se extiende?",answers ,
+				null, null);
+		Assertions.assertEquals(q.getClass(),Questions.class);
+		q.setId(2L);
+		Assertions.assertEquals(q.getId(), 2L);
+		q.setCategory("python");
+		Assertions.assertEquals(q.getCategory(), "python");
+		q.setLevel("normal");
+		Assertions.assertEquals(q.getLevel(), "normal");
+		q.setQuestion("¿Cómo se maneja la memoria en Python?");
+		Assertions.assertEquals(q.getQuestion(), "¿Cómo se maneja la memoria en Python?");
+		q.setCorrectAnswer("Automatica");
+		Assertions.assertEquals(q.getCorrectAnswer(), "Automatica");
+		Assertions.assertEquals(q.getAnswers().size(), 1);
+		q.setAnswers(List.of());
+		Assertions.assertEquals(q.getAnswers().size(), 0);
+		q.setFeedBack("Se realiza a través de un montor privado");
+		Assertions.assertEquals(q.getFeedBack(), "Se realiza a través de un montor privado");
+
 	class QuestionTest {
 		@Test
 		void basicTestQuestions() {
@@ -190,6 +259,16 @@ class PreguntaTechApplicationTests {
 			assertFalse(categoryServices.getCategories().getCategories().isEmpty());
 		}
 	}
+
+	@Test
+	void classCategoryTest() {
+		Category category=new Category("Java",30,"http://localhost:8080/categories");
+		Assertions.assertEquals(category.getClass(), Category.class);
+		Assertions.assertEquals(category.getName(), "Java");
+		Assertions.assertEquals(category.getcount_questions(), 30);
+		Assertions.assertEquals(category.getLink(), "http://localhost:8080/categories");
+	}
+  }
 
 	@Nested
 	class SecurityTests {
@@ -227,6 +306,76 @@ class PreguntaTechApplicationTests {
 			String token = jwt.generateToken(user, hmap);
 			Assertions.assertEquals(jwt.getUser(token), id);
 		}
+
+}
+	@Nested
+	class OrganizationTest{
+		@Test
+		void organizationTest() {
+			List<User> l=new ArrayList<>();
+			l.add(new User());
+			Organization o = new Organization(1L,"metrica", l);
+			Assertions.assertEquals(o.getClass(),Organization.class);
+			Assertions.assertEquals(o.getId(), 1L);
+			o.setId(2L);
+			Assertions.assertEquals(o.getId(), 2L);
+			Assertions.assertEquals(o.getName(), "metrica");
+			o.setName("metrica consulting");
+			Assertions.assertEquals(o.getName(), "metrica consulting");
+			Assertions.assertEquals(o.getUsers().size(), 1);
+			o.addUsers(new User());
+			Assertions.assertEquals(o.getUsers().size(), 2);
+			o.setUsers(List.of());
+			Assertions.assertEquals(o.getUsers().size(), 0);
+		}
+		
+	}
+	
+	@Nested
+	class ExamTest{
+		@Test
+		void classExamTest() {
+			List<Questions> lQuestions=new ArrayList<>();
+			List<User> lUser=new ArrayList<>();
+			Exam exam=new Exam(1L,lQuestions,lUser);
+			Assertions.assertEquals(exam.getClass(), Exam.class);
+			Assertions.assertEquals(exam.getUsers().size(), 0);
+			exam.setUsers(List.of(new User()));
+			Assertions.assertEquals(exam.getUsers().size(), 1);
+			Assertions.assertEquals(exam.getQuestions().size(), 0);
+			exam.setQuestions(List.of(new Questions()));
+			Assertions.assertEquals(exam.getQuestions().size(), 1);
+		}
+	}
+	@Nested
+	class CategoryResponseTest{
+		@Test
+		void classCategoryResponseTest() {
+			List<Category> lCategory=new ArrayList<>();
+			CategoryResponse categoryResponse= new CategoryResponse(lCategory, 28, 80);
+			Assertions.assertEquals(categoryResponse.getTotalCategories(), 28);
+			Assertions.assertEquals(categoryResponse.getTotalQuestions(), 80);
+			
+		}
+	}
+	@Nested
+	class UserTest{
+		@Test
+		void classUserTest() {
+			User user=new User("yo@gmail.com","12345");
+			User usercopiar=new User(user.getEmail(),user.getPassword());
+			Assertions.assertTrue(user.equals(usercopiar));
+			Assertions.assertTrue(user.equals(user));
+			Assertions.assertFalse(user.equals(null));
+			Assertions.assertFalse(user.equals(new Exam()));
+			Assertions.assertEquals(user.getClass(), User.class);
+			user.setEmail("yo2@gmail.com");
+			user.setSurname("nuevo");
+			Assertions.assertEquals(user.toString(), "Users [id=" + user.getId() + ", email=" + user.getEmail() + 
+					", password=" + user.getPassword() + ", surname=" + user.getSurname() + ", name=" + user.getName() + "]");
+		}
+	}
+
 
 		@Test
 		void basicTestSaveExam() {
