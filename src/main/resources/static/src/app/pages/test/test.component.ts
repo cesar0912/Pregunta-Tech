@@ -123,4 +123,8 @@ export class TestComponent implements OnInit {
   getQuestionsLength(): number {
     return this.questions.length;
   }
+  finalViewExam() {
+    this.router.navigate(['final-view-exam']);
+    this.answersService.setExamFinished(false);
+  }
 }
