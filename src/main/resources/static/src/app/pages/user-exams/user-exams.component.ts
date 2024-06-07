@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { GetExamUserService } from 'src/app/services/get-exam-user.service';
+import { Router } from '@angular/router';
 import { Exam } from 'src/app/Models/Exam';
+import { Question } from 'src/app/Models/Question';
+import { QuestionExam } from 'src/app/Models/QuestionExam';
 
 @Component({
   selector: 'app-user-exams',
@@ -17,11 +20,16 @@ export class UserExamsComponent implements OnInit {
   currentPage = 1;
   examsPerPage = 5;
 
-  constructor(private readonly getExamUserService: GetExamUserService) {}
+  constructor(
+    private readonly getExamUserService: GetExamUserService,
+    private readonly router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getExams();
+  }
 
-  getExams(): void {
+  private getExams(): void {
     this.getExamUserService.getExamsUser().subscribe({
       next: (response) => {
         this.userExams = response;
@@ -41,6 +49,34 @@ export class UserExamsComponent implements OnInit {
   }
 
   selectExam(exam: Exam): void {
-    console.log('Selected Exam:', exam);
+    this.router.navigate(['/test'], {
+      state: { questions: this.transformarExamen(exam) },
+    });
+  }
+
+  transformarExamen(examen: Exam): Question[] {
+    return examen.questions.map((pregunta: QuestionExam) => {
+      const question: Question = {
+        id: pregunta.id.toString(),
+        category: pregunta.category,
+        level: pregunta.level,
+        question: pregunta.question,
+        correct_answer: pregunta.correct_answer,
+        answers: pregunta.answers.reduce(
+          (
+            acc: { [key: string]: string },
+            respuesta: string,
+            index: number
+          ) => {
+            acc[`answer_${String.fromCharCode(97 + index)}`] = respuesta;
+            return acc;
+          },
+          {}
+        ),
+      };
+      return question;
+    });
   }
 }
+//mario.rodri9@gmail.com
+//12345678aA!
