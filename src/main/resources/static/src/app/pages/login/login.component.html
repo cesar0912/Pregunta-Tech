@@ -1,6 +1,7 @@
 <app-header></app-header>
 <div class="form-container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p class="register-title"><u>Inicia Sesion</u></p>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input
@@ -33,17 +34,14 @@
     <button mat-raised-button color="primary" type="submit">
       Iniciar sesión
     </button>
-
+    <br><br>
     <div class="additional-links">
       <p>
-        ¿Olvidaste tu Contraseña? <br />
-        Recupérala <a (click)="navigateResetPassword()"> Aquí</a>
-      </p>
-      <br />
-      <p>
-        ¿No tienes cuenta?
-        <a (click)="navigateRegister()">Regístrate</a>
+        ¿Olvidaste tu <a (click)="navigateResetPassword()">Contraseña</a>?
       </p>
     </div>
+      <p>
+        ¿No tienes cuenta? <a (click)="navigateRegister()">Regístrate</a>
+      </p>
   </form>
 </div>

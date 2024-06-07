@@ -1,0 +1,16 @@
+<div class="final-exam-container">
+  <div>
+    <h2>Resultados Finales</h2>
+    <p>Aciertos: {{ score }}</p>
+    <p>Total de Preguntas: {{ totalQuestions }}</p>
+    <p>Porcentaje de Aciertos: {{ porcentajeAciertos.toFixed(2) }}%</p>
+    <p>{{ mensaje }}</p>
+  </div>
+  <div class="final-links">
+    <mat-card>
+      <button mat-button (click)="navigateLandingAndResetExam()">Volver</button>
+      <button mat-button (click)="repeatExam()">Repetir</button>
+      <button mat-button (click)="nextQuestion()">Siguiente</button>
+    </mat-card>
+  </div>
+</div>
