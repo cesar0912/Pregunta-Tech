@@ -402,6 +402,29 @@ class PreguntaTechApplicationTests {
 			claims.put("pass", user.get().getPassword());
 			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 		}
+		@Test
+		void basicTestgetExamsByUser() {
+			List<Exam> exam = new ArrayList<>();
+			exam.add(new Exam());
+			exam.add(new Exam());
+			User user = new User("", "", "", "");
+			user.setId(1L);
+			user.setExamUser(exam);
+			HashMap<String, Object> hm = new HashMap<>();
+			hm.put("pass", "1234");
+			String token = jwt.generateToken(user, hm);
+			when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+			List<Exam> res = examServices.getExamsUser(token);
+			
+			assertFalse(res.isEmpty());
+			when(userRepository.findById(user.getId())).thenReturn(Optional.of(new User()));
+			res = examServices.getExamsUser(token);
+			assertNull(res);
+
+			when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(null));
+			res=examServices.getExamsUser(token);
+			assertTrue(res.isEmpty());
+			}
 	}
 
 }
