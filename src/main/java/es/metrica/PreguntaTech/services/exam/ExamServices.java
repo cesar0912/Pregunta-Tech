@@ -9,5 +9,7 @@ public interface ExamServices {
 	Exam saveExam(Exam exam, String token);
 	
 	List<Exam> getExamsUser(String token);
+	
+	List<Exam> getExams();
 
 }
