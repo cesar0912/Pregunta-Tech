@@ -1,8 +1,8 @@
 .exam-container {
   display: flex;
-  flex-direction: column;  /* Organizar los exámenes en una columna */
-  align-items: center;     /* Centrar horizontalmente */
-  margin-top: 20px;        /* Margen superior */
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .exam {
@@ -10,8 +10,8 @@
   border-radius: 8px;
   padding: 16px;
   margin: 8px;
-  width: 90%;              /* Ocupa el 90% del ancho del contenedor */
-  max-width: 600px;        /* Ancho máximo */
+  width: 90%;
+  max-width: 600px;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
@@ -19,7 +19,7 @@
 
 .exam:hover {
   background-color: #f0f0f0;
-  transform: scale(1.05);  /* Agrandar un poco al pasar el ratón */
+  transform: scale(1.05);
 }
 
 .pagination {
