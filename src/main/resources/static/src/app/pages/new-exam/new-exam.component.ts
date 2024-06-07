@@ -12,8 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { Question } from '../../Models/Question';
 import { HeaderComponent } from '../header/header.component';
+import { ExamService } from 'src/app/services/exam.service';
+import { Exam } from 'src/app/Models/Exam';
+import { QuestionExam } from 'src/app/Models/QuestionExam';
+import { Question, clearQuestionInterface } from 'src/app/Models/Question';
 
 @Component({
   selector: 'app-new-exam',
@@ -47,9 +50,12 @@ export class NewExamComponent {
   firstInfoChecked: boolean = false;
   categoryInput: string = '';
   levelInput: string = '';
-  respuestaArray: number[] = [0, 1, 2, 3]; // Array para manejar dinámicamente los inputs de respuestas
+  respuestaArray: number[] = [0, 1, 2, 3];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private readonly examService: ExamService
+  ) {
     this.examForm = this.formBuilder.group({
       category: ['', Validators.required],
       level: ['', Validators.required],
@@ -72,7 +78,7 @@ export class NewExamComponent {
     this.firstInfoChecked = true;
   }
 
-  agregarPregunta() {
+  addQuestionToExam() {
     const formValues = this.questionForm.value;
     const answers: { [key: string]: string } = {};
     this.respuestaArray.forEach((i) => {
@@ -96,15 +102,11 @@ export class NewExamComponent {
 
     this.preguntas.push(this.preguntaActual);
 
-    this.preguntaActual = {
-      id: '',
-      category: this.categoryInput,
-      level: this.levelInput,
-      question: '',
-      answers: {},
-      correct_answer: '',
-      feedback: '',
-    };
+    this.preguntaActual = clearQuestionInterface(
+      this.preguntaActual,
+      this.categoryInput,
+      this.levelInput
+    );
 
     this.questionForm.reset();
     this.respuestaArray = [0, 1, 2, 3];
@@ -113,7 +115,7 @@ export class NewExamComponent {
     });
   }
 
-  addRespuesta() {
+  addAnswer() {
     if (this.respuestaArray.length < 10) {
       const nextIndex = this.respuestaArray.length;
       this.respuestaArray.push(nextIndex);
@@ -121,7 +123,7 @@ export class NewExamComponent {
     }
   }
 
-  removeRespuesta() {
+  removeAnswer() {
     if (this.respuestaArray.length > 3) {
       const lastIndex = this.respuestaArray.pop();
       if (lastIndex !== undefined) {
@@ -130,25 +132,20 @@ export class NewExamComponent {
     }
   }
 
-  generateRandomId() {
+  generateRandomId(): string {
     return Math.random().toString(36).substr(2, 15);
   }
 
-  editarPreguntaAnterior() {}
-
-  transformQuestions() {
-    return this.preguntas.map((pregunta) => {
-      const transformedAnswers: { [key: string]: string } = {};
-      Object.keys(pregunta.answers).forEach((key) => {
-        transformedAnswers[key] = pregunta.answers[key];
-      });
+  transformQuestionsToQuestionExam(questions: Question[]): QuestionExam[] {
+    return questions.map((pregunta) => {
+      const answersArray: string[] = Object.values(pregunta.answers);
 
       return {
-        id: pregunta.id,
+        id: parseInt(pregunta.id),
         category: pregunta.category,
         level: pregunta.level,
         question: pregunta.question,
-        answers: transformedAnswers,
+        answers: answersArray,
         correct_answer: this.transformCorrectAnswer(pregunta.correct_answer),
         feedback: pregunta.feedback,
       };
@@ -164,8 +161,22 @@ export class NewExamComponent {
       .join('_');
   }
 
-  enviar() {
-    const transformedPreguntas = this.transformQuestions();
-    console.log(transformedPreguntas);
+  sendExam() {
+    const exam: Exam = {
+      questions: this.transformQuestionsToQuestionExam(this.preguntas),
+    };
+
+    this.examService.saveExam(exam).subscribe({
+      next: (response) => {
+        if (response) {
+          console.log('Exam saved successfully:', response);
+        } else {
+          console.error('Error saving exam: Response is empty or null');
+        }
+      },
+      error: (error) => {
+        console.error('Error saving exam:', error);
+      },
+    });
   }
 }
