@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Exam } from '../Models/Exam';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth-service.service';
-
-interface ExamApiResponse {
-  exams: Exam[];
-}
+import { Exam } from '../Models/Exam';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +15,12 @@ export class GetExamUserService {
     private http: HttpClient
   ) {}
 
-  getExamsUser(): Observable<ExamApiResponse> {
+  getExamsUser(): Observable<Exam[]> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       auth: token ? token : '',
     });
-    return this.http.get<ExamApiResponse>(this.apiUrl, { headers });
+    return this.http.get<Exam[]>(this.apiUrl, { headers });
   }
 }
