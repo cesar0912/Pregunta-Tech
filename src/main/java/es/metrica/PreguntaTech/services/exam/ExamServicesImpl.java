@@ -59,7 +59,7 @@ public class ExamServicesImpl implements ExamServices {
 
 	@Override
 	public List<Exam> getExamsUser(String token) {
-		Optional<User> userOpt=userRepository.findById(1L);
+		Optional<User> userOpt=userRepository.findById(jwt.getUser(token));
 		if(userOpt.isPresent()) {
 			return userOpt.get().getExamUser();
 			

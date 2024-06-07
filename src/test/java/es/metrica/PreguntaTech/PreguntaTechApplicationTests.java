@@ -105,28 +105,7 @@ class PreguntaTechApplicationTests {
 			Assertions.assertNull(testLogin.getError());
 	}
 
-	@Test
-	void basicTestgetExamsByUser() {
-		List<Exam> exam = new ArrayList<>();
-		exam.add(new Exam());
-		exam.add(new Exam());
-		User user = new User("", "", "", "");
-		user.setExamUser(exam);
-		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-		List<Exam> res = examServices.getExamsUser("");
-		
-		
-		assertFalse(res.isEmpty());
-		when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
-		res = examServices.getExamsUser("");
-		assertNull(res);
-
-
-		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
-		res=examServices.getExamsUser("");
-		assertTrue(res.isEmpty());
-
-		}
+	
 
 		@Test
 		void testInvalidUserLogin() {
@@ -385,6 +364,29 @@ class PreguntaTechApplicationTests {
 			claims.put("pass", user.get().getPassword());
 			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 		}
+		@Test
+		void basicTestgetExamsByUser() {
+			List<Exam> exam = new ArrayList<>();
+			exam.add(new Exam());
+			exam.add(new Exam());
+			User user = new User("", "", "", "");
+			user.setId(1L);
+			user.setExamUser(exam);
+			HashMap<String, Object> hm = new HashMap<>();
+			hm.put("pass", "1234");
+			String token = jwt.generateToken(user, hm);
+			when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+			List<Exam> res = examServices.getExamsUser(token);
+			
+			assertFalse(res.isEmpty());
+			when(userRepository.findById(user.getId())).thenReturn(Optional.of(new User()));
+			res = examServices.getExamsUser(token);
+			assertNull(res);
+
+			when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(null));
+			res=examServices.getExamsUser(token);
+			assertTrue(res.isEmpty());
+			}
 	}
 
 }
