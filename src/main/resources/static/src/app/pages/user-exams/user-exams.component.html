@@ -1,2 +1,25 @@
 <app-header></app-header>
-<button (click)="getExams()">Examenes</button>
+<button (click)="getExams()">Exámenes</button>
+
+<div *ngIf="paginatedExams.length > 0; else noExams">
+  <div *ngFor="let exam of paginatedExams" class="exam-container">
+    <div class="exam" (click)="selectExam(exam)">
+      <h3>Examen {{exam.questions[0].category}}</h3>
+      <p>Cantidad de preguntas: {{exam.questions.length}}</p>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">
+      Anterior
+    </button>
+    <span>Página {{currentPage}}</span>
+    <button (click)="setPage(currentPage + 1)" [disabled]="currentPage * examsPerPage >= userExams.length">
+      Siguiente
+    </button>
+  </div>
+</div>
+
+<ng-template #noExams>
+  <p>No hay exámenes disponibles</p>
+</ng-template>
