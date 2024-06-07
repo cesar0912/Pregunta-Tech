@@ -4,7 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { TestComponent } from './pages/test/test.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
-import { ViewExamsComponent } from './pages/view-exams/view-exams.component';
+import { UserExamsComponent } from './pages/user-exams/user-exams.component';
 import { NewExamComponent } from './pages/new-exam/new-exam.component';
 
 export const routes: Routes = [
@@ -14,6 +14,6 @@ export const routes: Routes = [
   { path: 'test', component: TestComponent },
   { path: 'landing', component: LandingComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'view-exams', component: ViewExamsComponent },
+  { path: 'user-exams', component: UserExamsComponent },
   { path: 'new-exam', component: NewExamComponent },
 ];

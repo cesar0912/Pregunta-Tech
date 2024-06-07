@@ -9,7 +9,7 @@ import { AnswersService } from './services/answer.service';
 import { AuthService } from './services/auth-service.service';
 import { AuthInterceptor } from './Interceptors/AuthInterceptor';
 import { ExamService } from './services/exam.service';
-
+import { GetExamUserService } from './services/get-exam-user.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -22,6 +22,7 @@ import { ExamService } from './services/exam.service';
     AnswersService,
     AuthService,
     ExamService,
+    GetExamUserService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   templateUrl: './app.component.html',
