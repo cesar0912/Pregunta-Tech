@@ -1,3 +1,4 @@
+import { NextExamService } from './../../services/next-exam.service';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -51,7 +52,8 @@ export class LandingComponent implements OnInit {
     private readonly router: Router,
     private readonly preguntaApiCategoriesService: PreguntaApiCategoriesService,
     private readonly preguntaApiQuestionsService: PreguntaApiQuestionsService,
-    private readonly categoryCacheService: CategoryCacheService
+    private readonly categoryCacheService: CategoryCacheService,
+    private readonly NextExamService: NextExamService
   ) {
     this.testForm = this.fb.group({
       category: [null, Validators.required],
@@ -92,6 +94,7 @@ export class LandingComponent implements OnInit {
       const { category, difficulty, testCount } = this.testForm.value;
       url = `https://www.preguntapi.dev/api/categories/${category}?level=${difficulty}&limit=${testCount}`;
     }
+    this.NextExamService.setTestForm(this.testForm);
     console.log('Url desde generar url: ' + url);
     return url;
   }
