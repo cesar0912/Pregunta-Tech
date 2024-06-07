@@ -20,7 +20,7 @@
 </div>
 
 <div class="preguntas-container" *ngIf="firstInfoChecked">
-  <form [formGroup]="questionForm" (ngSubmit)="agregarPregunta()">
+  <form [formGroup]="questionForm" (ngSubmit)="addQuestionToExam()">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Pregunta</mat-label>
       <textarea matInput formControlName="question" placeholder="Ingrese la pregunta" required></textarea>
@@ -36,8 +36,8 @@
     </div>
 
     <div class="button-container">
-      <button mat-raised-button type="button" (click)="addRespuesta()">+</button>
-      <button mat-raised-button type="button" (click)="removeRespuesta()">-</button>
+      <button mat-raised-button type="button" (click)="addAnswer()">+</button>
+      <button mat-raised-button type="button" (click)="removeAnswer()">-</button>
     </div>
 
     <mat-form-field appearance="fill" class="full-width">
@@ -53,9 +53,8 @@
     </mat-form-field>
 
     <div class="button-container">
-      <button mat-raised-button type="button" (click)="editarPreguntaAnterior()">Atrás</button>
       <button mat-raised-button type="submit">Guardar Pregunta</button>
     </div>
   </form>
-  <button mat-raised-button type="button" (click)="enviar()">Enviar Todo</button>
+  <button mat-raised-button type="button" (click)="sendExam()">Enviar Todo</button>
 </div>

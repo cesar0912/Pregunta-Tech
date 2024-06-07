@@ -31,7 +31,9 @@ export class FinalExamViewComponent implements OnInit {
     this.answersService.resetExam();
   }
   nextQuestion() {}
-  navigateLanding() {
+
+  navigateLandingAndResetExam() {
+    this.answersService.setExamFinished(false);
     this.router.navigate(['landing']);
   }
 
