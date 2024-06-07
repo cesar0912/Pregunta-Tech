@@ -110,9 +110,7 @@ export class TestComponent implements OnInit {
   }
 
   private examIsFinished(): void {
-    this.currentQuestionIndex = 0;
-    this.score = 0;
-    this.answersService.setExamFinished(true);
+    this.router.navigate(['final-view-exam']);
   }
   public getExamFinished(): boolean {
     return this.answersService.getExamFinished();
@@ -122,9 +120,5 @@ export class TestComponent implements OnInit {
   }
   getQuestionsLength(): number {
     return this.questions.length;
-  }
-  finalViewExam() {
-    this.router.navigate(['final-view-exam']);
-    this.answersService.setExamFinished(false);
   }
 }

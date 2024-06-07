@@ -1,5 +1,4 @@
 <app-header></app-header>
-@if (!getExamFinished()) {
 <div class="main-container">
   <div class="test-container">
     <h1>{{ questions[currentQuestionIndex].category }}</h1>
@@ -60,6 +59,4 @@
     }
   </div>
 </div>
-}@else {
-  {{ finalViewExam() }}
-}
+
