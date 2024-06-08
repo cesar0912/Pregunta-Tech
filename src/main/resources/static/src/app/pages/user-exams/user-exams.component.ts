@@ -4,8 +4,6 @@ import { HeaderComponent } from '../header/header.component';
 import { GetExamUserService } from 'src/app/services/get-exam-user.service';
 import { Router } from '@angular/router';
 import { Exam } from 'src/app/Models/Exam';
-import { Question } from 'src/app/Models/Question';
-import { QuestionExam } from 'src/app/Models/QuestionExam';
 
 @Component({
   selector: 'app-user-exams',
@@ -48,35 +46,18 @@ export class UserExamsComponent implements OnInit {
     this.paginatedExams = this.userExams.slice(startIndex, endIndex);
   }
 
-  selectExam(exam: Exam): void {
+  selectExam(selectedExam: Exam) {
+    const selectedIndex = this.userExams.findIndex(
+      (exam) => exam === selectedExam
+    );
     this.router.navigate(['/test'], {
-      state: { questions: this.transformarExamen(exam) },
-    });
-  }
-
-  transformarExamen(examen: Exam): Question[] {
-    return examen.questions.map((pregunta: QuestionExam) => {
-      const question: Question = {
-        id: pregunta.id.toString(),
-        category: pregunta.category,
-        level: pregunta.level,
-        question: pregunta.question,
-        correct_answer: pregunta.correct_answer,
-        answers: pregunta.answers.reduce(
-          (
-            acc: { [key: string]: string },
-            respuesta: string,
-            index: number
-          ) => {
-            acc[`answer_${String.fromCharCode(97 + index)}`] = respuesta;
-            return acc;
-          },
-          {}
-        ),
-      };
-      return question;
+      state: {
+        questions:
+          this.getExamUserService.transformExamtoQuestionsArray(selectedExam),
+        isUserExam: true,
+        selectedIndex: selectedIndex,
+        exams: this.userExams,
+      },
     });
   }
 }
-//mario.rodri9@gmail.com
-//12345678aA!

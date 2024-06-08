@@ -42,7 +42,7 @@ import { CategoryCacheService } from '../../services/category-cache.service';
 export class LandingComponent implements OnInit {
   categories: Category[] = [];
   selectedCategory: Category | null = null;
-  difficulties: string[] = ['facil', 'normal', 'dificil'];
+  difficulties: string[] = ['aleatorio', 'facil', 'normal', 'dificil'];
   testCounts: number[] = [5, 10, 15, 20];
 
   testForm: FormGroup;
