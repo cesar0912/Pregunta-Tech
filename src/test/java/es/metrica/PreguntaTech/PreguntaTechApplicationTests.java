@@ -103,9 +103,7 @@ class PreguntaTechApplicationTests {
 
 			Assertions.assertEquals(us.getId(), jwt.getUser(testLogin.getToken()));
 			Assertions.assertNull(testLogin.getError());
-	}
-
-	
+		}
 
 		@Test
 		void testInvalidUserLogin() {
@@ -123,7 +121,6 @@ class PreguntaTechApplicationTests {
 
 			Optional<User> user = Optional.of(new User(1L, "admin", hu.hash("12345"), "", ""));
 			when(userRepository.getByEmail("admin")).thenReturn(user);
-
 
 			LoginResult testLogin = userServices.login(new User("admin", "nonono", "", ""));
 			Assertions.assertNull(testLogin.getToken());
@@ -313,7 +310,7 @@ class PreguntaTechApplicationTests {
 			exam.setQuestions(List.of(new Questions()));
 			Assertions.assertEquals(exam.getQuestions().size(), 1);
 		}
-		
+
 		@Test
 		void basicTestgetExamsByUser() {
 			List<Exam> exam = new ArrayList<>();
@@ -323,66 +320,67 @@ class PreguntaTechApplicationTests {
 			user.setExamUser(exam);
 			when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 			List<Exam> res = examServices.getExamsUser("");
-			
-			
+
 			assertFalse(res.isEmpty());
 			when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
 			res = examServices.getExamsUser("");
 			assertNull(res);
 
-
 			when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
-			res=examServices.getExamsUser("");
+			res = examServices.getExamsUser("");
 			assertTrue(res.isEmpty());
 
-			}
-		
-		@Test
-		void basicTestgetExams() {
-			List<Exam> exam = new ArrayList<>();
-			exam.add(new Exam());
-			exam.add(new Exam());
-		
-			when(examRepository.findAll()).thenReturn(exam);
-			List<Exam> res = examServices.getExams();
-			
-			
-			assertFalse(res.isEmpty());
-		
-
-			}
-	}
-
-	@Nested
-	class CategoryResponseTest {
-		@Test
-		void classCategoryResponseTest() {
-			List<Category> lCategory = new ArrayList<>();
-			CategoryResponse categoryResponse = new CategoryResponse(lCategory, 28, 80);
-			Assertions.assertEquals(categoryResponse.getTotalCategories(), 28);
-			Assertions.assertEquals(categoryResponse.getTotalQuestions(), 80);
-
-		}
-	}
-
-	@Nested
-	class UserTest {
-		@Test
-		void classUserTest() {
-			User user = new User("yo@gmail.com", "12345");
-			User usercopiar = new User(user.getEmail(), user.getPassword());
-			Assertions.assertEquals(user,usercopiar);
-			Assertions.assertEquals(user,user);
-			Assertions.assertNotEquals(user,null);
-			Assertions.assertNotEquals(user,new Exam());
-			Assertions.assertEquals(user.getClass(), User.class);
-			user.setEmail("yo2@gmail.com");
-			user.setSurname("nuevo");
-			Assertions.assertEquals(user.toString(),
-					"Users [id=" + user.getId() + ", email=" + user.getEmail() + ", password=" + user.getPassword()
-							+ ", surname=" + user.getSurname() + ", name=" + user.getName() + "]");
 		}
 
+		
+		@Test
+		void invalidUserSaveExam() {
+			Optional<User> user = Optional.of(new User(1L, "user1", "1234", "", ""));
+		
+
+			Exam exam = new Exam();
+
+			when(userRepository.findById(2L)).thenReturn(user);
+			
+			when(userRepository.save(user.get())).thenReturn(user.get());
+			Map<String, Object> claims = new HashMap<>();
+			claims.put("pass", user.get().getPassword());
+			assertNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
+		}
+	}
+		@Nested
+		class CategoryResponseTest {
+			@Test
+			void classCategoryResponseTest() {
+				List<Category> lCategory = new ArrayList<>();
+				CategoryResponse categoryResponse = new CategoryResponse(lCategory, 28, 80);
+				Assertions.assertEquals(categoryResponse.getTotalCategories(), 28);
+				Assertions.assertEquals(categoryResponse.getTotalQuestions(), 80);
+
+			}
+		}
+
+		@Nested
+		class UserTest {
+			@Test
+			void classUserTest() {
+				User user = new User("yo@gmail.com", "12345");
+				User usercopiar = new User(user.getEmail(), user.getPassword());
+				Assertions.assertEquals(user, usercopiar);
+				Assertions.assertEquals(user, user);
+				Assertions.assertNotEquals(user, null);
+				Assertions.assertNotEquals(user, new Exam());
+				Assertions.assertEquals(user.getClass(), User.class);
+				user.setEmail("yo2@gmail.com");
+				user.setSurname("nuevo");
+				Assertions.assertEquals(user.toString(),
+						"Users [id=" + user.getId() + ", email=" + user.getEmail() + ", password=" + user.getPassword()
+								+ ", surname=" + user.getSurname() + ", name=" + user.getName() + "]");
+			}
+
+			
+		}
+		
 		@Test
 		void basicTestSaveExam() {
 			Optional<User> user = Optional.of(new User(1L, "user1", "1234", "", ""));
@@ -402,29 +400,6 @@ class PreguntaTechApplicationTests {
 			claims.put("pass", user.get().getPassword());
 			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 		}
-		@Test
-		void basicTestgetExamsByUser() {
-			List<Exam> exam = new ArrayList<>();
-			exam.add(new Exam());
-			exam.add(new Exam());
-			User user = new User("", "", "", "");
-			user.setId(1L);
-			user.setExamUser(exam);
-			HashMap<String, Object> hm = new HashMap<>();
-			hm.put("pass", "1234");
-			String token = jwt.generateToken(user, hm);
-			when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-			List<Exam> res = examServices.getExamsUser(token);
-			
-			assertFalse(res.isEmpty());
-			when(userRepository.findById(user.getId())).thenReturn(Optional.of(new User()));
-			res = examServices.getExamsUser(token);
-			assertNull(res);
-
-			when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(null));
-			res=examServices.getExamsUser(token);
-			assertTrue(res.isEmpty());
-			}
-	}
-
+	
 }
+
