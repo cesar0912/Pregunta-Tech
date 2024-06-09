@@ -400,7 +400,6 @@ class PreguntaTechApplicationTests {
 			claims.put("pass", user.get().getPassword());
 			assertNotNull(examServices.saveExam(exam, jwt.generateToken(user.get(), claims)));
 		}
-
 	
 }
 

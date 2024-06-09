@@ -5,39 +5,41 @@
   height: 100vh;
   background-color: #f0f0f0;
 }
-
 .test-container {
-  width: 90%;
+  width: 80%;
   max-width: 1000px;
   padding: 20px;
   background: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  margin-top: 50px;
 }
 
+.test-container h1 {
+  font-size: 30px;
+}
 .test-container h2 {
-  font-family: "Roboto", sans-serif;
-  font-size: 28px;
-  color: #333;
+  font-size: 22px;
+}
+.test-container h3 {
+  font-size: 16px;
 }
 
 .test-container p {
-  font-family: "Roboto", sans-serif;
-  font-size: 28px;
-  color: #666;
+  font-size: 16px;
 }
 
 .answer-button {
   display: block;
   width: 100%;
-  padding: 20px;
-  margin: 10px 0;
+  padding: 8px;
+  margin: 5px 0;
   text-align: left;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   cursor: pointer;
   font-family: "Roboto", sans-serif;
-  font-size: 28px;
+  font-size: 16px;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -58,13 +60,13 @@
 .next-button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-  font-size: 50px;
-  padding: 20px 40px;
+  margin-top: 5px;
+  font-size: 20px;
+  padding: 5px 10px;
 }
 .next-button-container button {
-  font-size: 30px;
-  padding: 20px 40px;
+  font-size: 20px;
+  padding: 5px 10px;
 }
 
 .feedback {

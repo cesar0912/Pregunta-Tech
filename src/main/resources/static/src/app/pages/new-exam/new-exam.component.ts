@@ -17,6 +17,7 @@ import { ExamService } from 'src/app/services/exam.service';
 import { Exam } from 'src/app/Models/Exam';
 import { QuestionExam } from 'src/app/Models/QuestionExam';
 import { Question, clearQuestionInterface } from 'src/app/Models/Question';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-exam',
@@ -54,7 +55,8 @@ export class NewExamComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private readonly examService: ExamService
+    private readonly examService: ExamService,
+    private snackBar: MatSnackBar
   ) {
     this.examForm = this.formBuilder.group({
       category: ['', Validators.required],
@@ -170,6 +172,7 @@ export class NewExamComponent {
       next: (response) => {
         if (response) {
           console.log('Exam saved successfully:', response);
+          this.examSaveFinished();
         } else {
           console.error('Error saving exam: Response is empty or null');
         }
@@ -178,5 +181,13 @@ export class NewExamComponent {
         console.error('Error saving exam:', error);
       },
     });
+  }
+
+  private examSaveFinished(): void {
+    this.snackBar.open('Examen Guardado', 'Cerrar', {
+      duration: 3000,
+    });
+    this.examForm.reset();
+    this.firstInfoChecked = false;
   }
 }

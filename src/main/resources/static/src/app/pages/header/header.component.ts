@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public navigateViewExams(): void {
-    this.router.navigate(['view-exams']);
+    this.router.navigate(['user-exams']);
   }
 
   public logout(): void {

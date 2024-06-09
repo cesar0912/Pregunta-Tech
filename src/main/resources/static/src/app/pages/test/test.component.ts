@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { Question } from 'src/app/Models/Question';
 import { AnswersService } from '../../services/answer.service';
 import { FinalExamViewComponent } from '../final-exam-view/final-exam-view.component';
+import { Exam } from 'src/app/Models/Exam';
 
 @Component({
   selector: 'app-test',
@@ -35,6 +36,9 @@ export class TestComponent implements OnInit {
   testForm!: FormGroup;
   answersSelected: boolean = false;
   examFinished: boolean = false;
+  isUserExamTestComponent: boolean = false;
+  exams: Exam[] = [];
+  selectedIndex: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -43,8 +47,15 @@ export class TestComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     this.questions = navigation?.extras?.state?.['questions'] || [];
-    answersService.setQuestions(this.questions);
-    answersService.setScore(0);
+    this.isUserExamTestComponent =
+      navigation?.extras?.state?.['isUserExam'] || false;
+    this.exams = navigation?.extras?.state?.['exams'] || [];
+    this.selectedIndex = navigation?.extras?.state?.['selectedIndex'] || 0;
+    this.answersService.setQuestions(this.questions);
+    this.answersService.setScore(0);
+    this.answersService.setUserExams(this.exams);
+    this.answersService.setSelectedIndex(this.selectedIndex);
+    this.answersService.setIsUserExam(this.isUserExamTestComponent);
     this.testForm = this.fb.group({
       answers: this.fb.array([]),
     });
@@ -110,9 +121,7 @@ export class TestComponent implements OnInit {
   }
 
   private examIsFinished(): void {
-    this.currentQuestionIndex = 0;
-    this.score = 0;
-    this.answersService.setExamFinished(true);
+    this.router.navigate(['final-view-exam']);
   }
   public getExamFinished(): boolean {
     return this.answersService.getExamFinished();
