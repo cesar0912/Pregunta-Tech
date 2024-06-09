@@ -11,6 +11,7 @@ import { AuthInterceptor } from './Interceptors/AuthInterceptor';
 import { ExamService } from './services/exam.service';
 import { NextExamService } from './services/next-exam.service';
 import { GetExamUserService } from './services/get-exam-user.service';
+import { CookieService } from './services/cookie.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,6 +26,7 @@ import { GetExamUserService } from './services/get-exam-user.service';
     ExamService,
     NextExamService,
     GetExamUserService,
+    CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   templateUrl: './app.component.html',
