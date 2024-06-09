@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnswersService } from '../../services/answer.service';
 import { MatCardModule } from '@angular/material/card';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-final-exam-view',
   templateUrl: './final-exam-view.component.html',
   styleUrls: ['./final-exam-view.component.css'],
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, HeaderComponent],
 })
 export class FinalExamViewComponent implements OnInit {
   score: number = 0;
