@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
+import { CookieService } from './cookie.service';
 
-//TODO Implement LocalStorage, doesn´t work
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private token: string | null = null;
+  private readonly TOKEN_KEY = 'auth_token';
 
-  constructor() {}
+  constructor(private readonly cookieService: CookieService) {}
 
   setToken(token: string): void {
-    this.token = token;
+    this.cookieService.setCookie(this.TOKEN_KEY, token, 7);
   }
 
   getToken(): string | null {
-    return this.token;
+    return this.cookieService.getCookie(this.TOKEN_KEY);
   }
 
   clearToken(): void {
-    this.token = null;
+    this.cookieService.deleteCookie(this.TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {
-    return this.token !== null;
+    return this.getToken() !== null;
   }
 }
