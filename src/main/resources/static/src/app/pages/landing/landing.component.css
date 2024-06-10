@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin: 20px;
-  height: 100vh;
+  height: 80vh;
   justify-content: center;
 }
 
@@ -14,7 +14,7 @@
   justify-content: center;
   width: 100%;
   max-width: 1000px;
-  margin-top: 20px;
+  margin-top: 4%;
 }
 
 .selector-container {
