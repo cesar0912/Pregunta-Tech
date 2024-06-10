@@ -9,7 +9,7 @@
   font-size: 20px;
 }
 .form-container form {
-    width: 18%;
+    width: 20%;
     background-color: darkcyan;
     border: 2px solid darkcyan;
     padding: 2% 2% 2% 5%;
@@ -38,8 +38,8 @@
 
 .additional-links {
     text-align: center;
-    margin-top: -14%;
-    margin-left: 42%;
+    margin-top: -25%;
+    margin-left: 54%;
 }
 
 .register-bottom {
